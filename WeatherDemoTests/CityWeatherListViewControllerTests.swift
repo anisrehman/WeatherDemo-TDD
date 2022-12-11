@@ -20,8 +20,8 @@ final class CityWeatherListViewControllerTests: XCTestCase {
         XCTAssertNotNil(vc.tableView.delegate)
 
         let cityWeatherList = [
-            CityWeather(city: "Multan", lat: 3, lon: 3, minTemp: 4, maxTemp: 44, iconURL: ""),
-            CityWeather(city: "Lahore", lat: 4, lon: 4, minTemp: 2, maxTemp: 33, iconURL: "")
+            CityWeather(city: "Multan", lat: 3, lon: 3, temp: 7, minTemp: 4, maxTemp: 44, iconURL: ""),
+            CityWeather(city: "Lahore", lat: 4, lon: 4, temp: 7, minTemp: 2, maxTemp: 33,  iconURL: "")
         ]
         vc.cityWeatherList = cityWeatherList
 

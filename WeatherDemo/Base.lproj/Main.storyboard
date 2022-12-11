@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="h7u-BW-oMi"/>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="LOw-BB-3hX"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Fue-58-005"/>
                                 </connections>
                             </tableView>
@@ -35,7 +35,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="tableView" destination="LLZ-bJ-P9o" id="8RT-vx-oaq"/>
+                        <outlet property="tableView" destination="LLZ-bJ-P9o" id="BS8-zw-sCq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
