@@ -15,6 +15,12 @@ class CityWeatherListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        setupUI()
+
+    }
+
+    func setupUI() {
+        tableView.register(UINib(nibName: "CityWeatherTableViewCell", bundle: nil), forCellReuseIdentifier: "CityWeatherTableViewCell")
     }
 }
 
@@ -24,7 +30,9 @@ extension CityWeatherListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CityWeatherTableViewCell", for: indexPath) as! CityWeatherTableViewCell
+        cell.configure(weather: cityWeatherList[indexPath.row])
+        return cell
     }
 }
 

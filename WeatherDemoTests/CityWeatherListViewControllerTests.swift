@@ -16,8 +16,7 @@ final class CityWeatherListViewControllerTests: XCTestCase {
         let vc = try XCTUnwrap(sut, "VC not connected to Storyboad")
         vc.loadViewIfNeeded()
         XCTAssertNotNil(vc.tableView)
-        XCTAssertNotNil(vc.tableView.dataSource)
-        XCTAssertNotNil(vc.tableView.delegate)
+        let dataSource = try XCTUnwrap(vc.tableView.dataSource)
 
         let cityWeatherList = [
             CityWeather(city: "Multan", lat: 3, lon: 3, temp: 7, minTemp: 4, maxTemp: 44, iconURL: ""),
@@ -25,7 +24,13 @@ final class CityWeatherListViewControllerTests: XCTestCase {
         ]
         vc.cityWeatherList = cityWeatherList
 
-        let rowCount = vc.tableView.dataSource?.tableView(vc.tableView, numberOfRowsInSection: 0)
+        let rowCount = dataSource.tableView(vc.tableView, numberOfRowsInSection: 0)
         XCTAssertEqual(cityWeatherList.count, rowCount)
+        let cell = dataSource.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? CityWeatherTableViewCell
+        let tableViewCell = try XCTUnwrap(cell, "VC not connected to Storyboad")
+        XCTAssertEqual(tableViewCell.cityLabel.text, cityWeatherList[0].city)
+        XCTAssertEqual(tableViewCell.tempLabel.text, "\(cityWeatherList[0].temp.formatted())°C")
+        XCTAssertEqual(tableViewCell.maxTempLabel.text, "\(cityWeatherList[0].maxTemp.formatted())°C")
+        XCTAssertEqual(tableViewCell.minTempLabel.text, "\(cityWeatherList[0].minTemp.formatted())°C")
     }
 }
