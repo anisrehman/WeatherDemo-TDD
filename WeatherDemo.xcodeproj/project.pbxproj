@@ -18,6 +18,7 @@
 		91378B5829459C9400CA8FBC /* CityWeatherListViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91378B5729459C9400CA8FBC /* CityWeatherListViewControllerTests.swift */; };
 		9144E593294749CF00C4E2C5 /* CityWeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9144E591294749CF00C4E2C5 /* CityWeatherTableViewCell.swift */; };
 		9144E594294749CF00C4E2C5 /* CityWeatherTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9144E592294749CF00C4E2C5 /* CityWeatherTableViewCell.xib */; };
+		91D92ACA294A091B0024BC77 /* CityWeatherListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D92AC9294A091B0024BC77 /* CityWeatherListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		91378B5729459C9400CA8FBC /* CityWeatherListViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherListViewControllerTests.swift; sourceTree = "<group>"; };
 		9144E591294749CF00C4E2C5 /* CityWeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherTableViewCell.swift; sourceTree = "<group>"; };
 		9144E592294749CF00C4E2C5 /* CityWeatherTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CityWeatherTableViewCell.xib; sourceTree = "<group>"; };
+		91D92AC9294A091B0024BC77 /* CityWeatherListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 				9133E8B22937626A00EC0C71 /* CityWeaherListViewController.swift */,
 				9144E591294749CF00C4E2C5 /* CityWeatherTableViewCell.swift */,
 				9144E592294749CF00C4E2C5 /* CityWeatherTableViewCell.xib */,
+				91D92AC9294A091B0024BC77 /* CityWeatherListViewModel.swift */,
 			);
 			path = CityWeatherList;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 				91378B5629459B9000CA8FBC /* CityWeather.swift in Sources */,
 				9133E8AF2937626A00EC0C71 /* AppDelegate.swift in Sources */,
 				9144E593294749CF00C4E2C5 /* CityWeatherTableViewCell.swift in Sources */,
+				91D92ACA294A091B0024BC77 /* CityWeatherListViewModel.swift in Sources */,
 				9133E8B12937626A00EC0C71 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

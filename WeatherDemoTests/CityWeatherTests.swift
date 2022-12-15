@@ -14,7 +14,7 @@ final class CityWeatherTests: XCTestCase {
         let cityWeather = CityWeather(city: "Multan", lat: 0.4, lon: 0.4, temp: 7, minTemp: 4, maxTemp: 44, iconURL: "")
         XCTAssertNotNil(cityWeather.city)
         XCTAssertNotEqual(cityWeather.city, "")
-        XCTAssertLessThanOrEqual(cityWeather.minTemp, cityWeather.maxTemp)
+        XCTAssertEqual(cityWeather.city, "Multan")
         XCTAssertNotNil(cityWeather.iconURL)
     }
 }

@@ -6,24 +6,39 @@
 //
 
 import UIKit
+import Combine
 
 class CityWeatherListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    var cityWeatherList: [CityWeather] = []
+    var viewModel: CityWeatherListViewModel!
+    private var cityWeatherList: [CityWeather] = []
+    private var subscribers: [AnyCancellable] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupUI()
-
-    }
-
-    func setupUI() {
-        tableView.register(UINib(nibName: "CityWeatherTableViewCell", bundle: nil), forCellReuseIdentifier: "CityWeatherTableViewCell")
+        bindViews()
+        viewModel.fetchCityWeathers()
     }
 }
 
+//MARK: - Private Functions
+extension CityWeatherListViewController {
+    private func setupUI() {
+        tableView.register(UINib(nibName: "CityWeatherTableViewCell", bundle: nil), forCellReuseIdentifier: "CityWeatherTableViewCell")
+    }
+
+    private func bindViews() {
+        viewModel.$cityWeatherList.sink { [weak self] cityWeathers in
+            self?.cityWeatherList = cityWeathers
+            self?.tableView.reloadData()
+        }.store(in: &subscribers)
+    }
+}
+
+//MARK: - UITableViewDataSource
 extension CityWeatherListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         cityWeatherList.count

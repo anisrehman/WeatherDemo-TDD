@@ -27,7 +27,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             CityWeather(city: "Multan", lat: 3, lon: 3, temp: 7, minTemp: 4, maxTemp: 44, iconURL: ""),
             CityWeather(city: "Lahore", lat: 4, lon: 4, temp: 7, minTemp: 2, maxTemp: 33,  iconURL: "")
         ]
-        vc?.cityWeatherList = cityWeatherList
+
+        vc?.viewModel = CityWeatherListViewModel(cityWeatherList: cityWeatherList)
         self.window?.rootViewController = vc
         self.window?.makeKeyAndVisible()
     }
