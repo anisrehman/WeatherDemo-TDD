@@ -8,12 +8,21 @@
 import Foundation
 
 class CityWeatherListViewModel {
+//MARK: Published Properties
     @Published var cityWeatherList: [CityWeather] = []
-    init(cityWeatherList: [CityWeather]) {
-        self.cityWeatherList = cityWeatherList
-    }
 
+//MARK: - Private Properties
+    var weatherService: WeatherServiceProtocol!
+    let cityList = ["Multan"]
+
+//MARK: - Initializers
+    init(weatherService: WeatherServiceProtocol) {
+        self.weatherService = weatherService
+    }
+//MARK: - Public Functions
     func fetchCityWeathers() {
-        self.cityWeatherList = self.cityWeatherList
+        weatherService.getWeather(cityNameList: cityList) { [weak self] cityWeatherList in
+            self?.cityWeatherList = cityWeatherList ?? []
+        }
     }
 }

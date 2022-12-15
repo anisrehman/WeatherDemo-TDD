@@ -19,6 +19,7 @@
 		9144E593294749CF00C4E2C5 /* CityWeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9144E591294749CF00C4E2C5 /* CityWeatherTableViewCell.swift */; };
 		9144E594294749CF00C4E2C5 /* CityWeatherTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9144E592294749CF00C4E2C5 /* CityWeatherTableViewCell.xib */; };
 		91D92ACA294A091B0024BC77 /* CityWeatherListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D92AC9294A091B0024BC77 /* CityWeatherListViewModel.swift */; };
+		91F59D6A294B208900EA17A0 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F59D69294B208900EA17A0 /* WeatherService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		9144E591294749CF00C4E2C5 /* CityWeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherTableViewCell.swift; sourceTree = "<group>"; };
 		9144E592294749CF00C4E2C5 /* CityWeatherTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CityWeatherTableViewCell.xib; sourceTree = "<group>"; };
 		91D92AC9294A091B0024BC77 /* CityWeatherListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherListViewModel.swift; sourceTree = "<group>"; };
+		91F59D69294B208900EA17A0 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 			children = (
 				91378B5429459B6B00CA8FBC /* Models */,
 				91D5B2052946165600E2F93B /* Modules */,
+				91F59D68294B206300EA17A0 /* Services */,
 				9133E8AE2937626A00EC0C71 /* AppDelegate.swift */,
 				9133E8B02937626A00EC0C71 /* SceneDelegate.swift */,
 				9133E8B42937626A00EC0C71 /* Main.storyboard */,
@@ -134,6 +137,14 @@
 				91D92AC9294A091B0024BC77 /* CityWeatherListViewModel.swift */,
 			);
 			path = CityWeatherList;
+			sourceTree = "<group>";
+		};
+		91F59D68294B206300EA17A0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				91F59D69294B208900EA17A0 /* WeatherService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,6 +255,7 @@
 				9144E593294749CF00C4E2C5 /* CityWeatherTableViewCell.swift in Sources */,
 				91D92ACA294A091B0024BC77 /* CityWeatherListViewModel.swift in Sources */,
 				9133E8B12937626A00EC0C71 /* SceneDelegate.swift in Sources */,
+				91F59D6A294B208900EA17A0 /* WeatherService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

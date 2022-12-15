@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+protocol WeatherServiceProtocol {
+    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?) -> Void)
+}
+
+class WeatherService: WeatherServiceProtocol {
+    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?) -> Void) {
+
+    }
+}
