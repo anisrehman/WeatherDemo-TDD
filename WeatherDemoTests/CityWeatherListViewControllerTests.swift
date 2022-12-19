@@ -62,7 +62,7 @@ class MockWeatherService: WeatherServiceProtocol {
         cityWeatherList  = cityWeathers
     }
 
-    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?) -> Void) {
-        completion(cityWeatherList)
+    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?, Error?) -> Void) {
+        completion(cityWeatherList, nil)
     }
 }
