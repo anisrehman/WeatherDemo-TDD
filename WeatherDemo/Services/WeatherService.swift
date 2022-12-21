@@ -18,7 +18,10 @@ class WeatherService: WeatherServiceProtocol {
     }
 
     func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?, Error?) -> Void) {
-        let request = URLRequest(url: URL(string: "https://google.com")!)
+        let parameters = [Constant.APIParameter.query: cityNameList[0], Constant.APIParameter.appID: Constant.apiKey]
+        let urlComponents = URLComponents(string: Constant.getCityWeatherURL, parameters: parameters)
+        guard let url = urlComponents.url else { return }
+        var request = URLRequest(url: url)
         apiClient.sendRequest(request, with: URLSession.shared, responseType: WeatherResponse.self) { weatherResponse, error in
             guard let weatherResponse = weatherResponse else {
                 completion(nil, error)
@@ -31,6 +34,19 @@ class WeatherService: WeatherServiceProtocol {
     }
 }
 
+//MARK: - Private Functions
+extension URLComponents {
+    init(string: String, parameters: [String: String]) {
+        var queryItems: [URLQueryItem] = []
+        for (key, value) in parameters {
+            let item = URLQueryItem(name: key, value: value)
+            queryItems.append(item)
+        }
+
+        self.init(string: string)!
+        self.queryItems = queryItems
+    }
+}
 
 struct WeatherResponse: Decodable {
     let name: String

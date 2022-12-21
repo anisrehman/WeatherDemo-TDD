@@ -23,11 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
         let vc = storyboard.instantiateViewController(withIdentifier: "CityWeatherListViewController") as? CityWeatherListViewController
-        let cityWeatherList = [
-            CityWeather(city: "Multan", lat: 3, lon: 3, temp: 7, minTemp: 4, maxTemp: 44, iconURL: ""),
-            CityWeather(city: "Lahore", lat: 4, lon: 4, temp: 7, minTemp: 2, maxTemp: 33,  iconURL: "")
-        ]
-        let weatherService = WeatherService(client: MockAPIClient2())
+        let weatherService = WeatherService(client: APIClient())
         vc?.viewModel = CityWeatherListViewModel(weatherService: weatherService)
         self.window?.rootViewController = vc
         self.window?.makeKeyAndVisible()
@@ -62,14 +58,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 
-}
-
-struct MockAPIClient2: APIClientProtocol {
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSession, responseType: T.Type, completion: @escaping (T?, Error?) -> Void) {
-            let coord = WeatherResponse.Coord(lat: 30.1956, lon: 71.4753)
-            let main = WeatherResponse.Main(temp: 297.09, temp_min: 297.09, temp_max: 297.09)
-            let weatherResponse = WeatherResponse(name: "Multan", cod: 200, coord: coord, main: main)
-
-            completion(weatherResponse as? T, nil)
-    }
 }
