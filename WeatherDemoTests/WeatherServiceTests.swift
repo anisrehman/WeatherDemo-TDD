@@ -24,7 +24,7 @@ final class WeatherServiceTests: XCTestCase {
 
         }
         waitForExpectations(timeout: 5, handler: nil)
-        let weather2 = try XCTUnwrap(weather, "Weather is nil")
+        let weather2 = try XCTUnwrap(weather)
         XCTAssertEqual(weather2.city, "Multan")
     }
 

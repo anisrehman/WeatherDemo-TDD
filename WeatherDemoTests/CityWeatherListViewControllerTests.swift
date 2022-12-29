@@ -35,7 +35,7 @@ final class CityWeatherListViewControllerTests: XCTestCase {
             let rowCount = dataSource.tableView(viewController.tableView, numberOfRowsInSection: 0)
             XCTAssertEqual(cityWeatherList.count, rowCount)
             let cell = dataSource.tableView(viewController.tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? CityWeatherTableViewCell
-            let tableViewCell = try! XCTUnwrap(cell, "Cell nib not correct")
+            let tableViewCell = try! XCTUnwrap(cell)
 
             XCTAssertEqual(tableViewCell.cityLabel.text, cityWeatherList[0].city)
             XCTAssertEqual(tableViewCell.tempLabel.text, "\(cityWeatherList[0].temp.formatted())°C")

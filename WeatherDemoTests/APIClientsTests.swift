@@ -64,7 +64,7 @@ final class APIClientsTests: XCTestCase {
             XCTAssertNil(error)
             let response = try! XCTUnwrap(response)
             let main = try! XCTUnwrap(response.main)
-            let coord = try! XCTUnwrap(response.coord)
+            XCTAssertNotNil(response.coord)
             XCTAssertEqual(response.name, "Multan")
             XCTAssertEqual(main.temp_max, 291.09)
             XCTAssertEqual(main.temp_min, 291.09)
