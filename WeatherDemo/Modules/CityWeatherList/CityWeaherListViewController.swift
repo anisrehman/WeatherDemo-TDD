@@ -31,9 +31,11 @@ extension CityWeatherListViewController {
     }
 
     private func bindViews() {
-        viewModel.$cityWeatherList.receive(on: DispatchQueue.main).sink { [weak self] cityWeathers in
-            self?.cityWeatherList = cityWeathers
-            self?.tableView.reloadData()
+        viewModel.$cityWeatherList.sink { cityWeathers in
+            DispatchQueue.main.async { [weak self] in
+                self?.cityWeatherList = cityWeathers
+                self?.tableView.reloadData()
+            }
         }.store(in: &subscribers)
     }
 }

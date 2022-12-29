@@ -20,15 +20,20 @@ class WeatherService: WeatherServiceProtocol {
     func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?, Error?) -> Void) {
         let parameters = [Constant.APIParameter.query: cityNameList[0], Constant.APIParameter.appID: Constant.apiKey]
         let urlComponents = URLComponents(string: Constant.getCityWeatherURL, parameters: parameters)
-        guard let url = urlComponents.url else { return }
-        var request = URLRequest(url: url)
+        let url = urlComponents.url!
+        let request = URLRequest(url: url)
         apiClient.sendRequest(request, with: URLSession.shared, responseType: WeatherResponse.self) { weatherResponse, error in
             guard let weatherResponse = weatherResponse else {
                 completion(nil, error)
                 return
             }
 
-            let cityWeather = CityWeather(city: weatherResponse.name, lat: weatherResponse.coord.lat, lon: weatherResponse.coord.lon, temp: weatherResponse.main.temp, minTemp: weatherResponse.main.temp_min, maxTemp: weatherResponse.main.temp_max, iconURL: "")
+            guard let name = weatherResponse.name, let main = weatherResponse.main, let coord = weatherResponse.coord else {
+                completion(nil, APIError(code: -1, message: "Missing weather data"))
+                return
+            }
+
+            let cityWeather = CityWeather(city: name, lat: coord.lat, lon: coord.lon, temp: main.temp, minTemp: main.temp_min, maxTemp: main.temp_max, iconURL: "")
             completion([cityWeather], error)
         }
     }
@@ -49,10 +54,11 @@ extension URLComponents {
 }
 
 struct WeatherResponse: Decodable {
-    let name: String
+    let name: String?
     let cod: Int
-    let coord: Coord
-    let main: Main
+    let coord: Coord?
+    let main: Main?
+    let message: String?
 
     struct Coord: Decodable {
         let lat: Double

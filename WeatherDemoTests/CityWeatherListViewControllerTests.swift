@@ -26,19 +26,24 @@ final class CityWeatherListViewControllerTests: XCTestCase {
         let weatherService = MockWeatherService(cityWeathers: cityWeatherList)
         viewController.viewModel = CityWeatherListViewModel(weatherService: weatherService)
         viewController.loadViewIfNeeded()
-
         XCTAssertNotNil(viewController.tableView)
         let dataSource = try XCTUnwrap(viewController.tableView.dataSource)
 
-        let rowCount = dataSource.tableView(viewController.tableView, numberOfRowsInSection: 0)
-        XCTAssertEqual(cityWeatherList.count, rowCount)
-        let cell = dataSource.tableView(viewController.tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? CityWeatherTableViewCell
-        let tableViewCell = try XCTUnwrap(cell, "Cell nib not correct")
+        let expect = expectation(description: "")
+        DispatchQueue.main.async { [unowned self] in
+            expect.fulfill()
+            let rowCount = dataSource.tableView(viewController.tableView, numberOfRowsInSection: 0)
+            XCTAssertEqual(cityWeatherList.count, rowCount)
+            let cell = dataSource.tableView(viewController.tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? CityWeatherTableViewCell
+            let tableViewCell = try! XCTUnwrap(cell, "Cell nib not correct")
 
-        XCTAssertEqual(tableViewCell.cityLabel.text, cityWeatherList[0].city)
-        XCTAssertEqual(tableViewCell.tempLabel.text, "\(cityWeatherList[0].temp.formatted())°C")
-        XCTAssertEqual(tableViewCell.maxTempLabel.text, "\(cityWeatherList[0].maxTemp.formatted())°C")
-        XCTAssertEqual(tableViewCell.minTempLabel.text, "\(cityWeatherList[0].minTemp.formatted())°C")
+            XCTAssertEqual(tableViewCell.cityLabel.text, cityWeatherList[0].city)
+            XCTAssertEqual(tableViewCell.tempLabel.text, "\(cityWeatherList[0].temp.formatted())°C")
+            XCTAssertEqual(tableViewCell.maxTempLabel.text, "\(cityWeatherList[0].maxTemp.formatted())°C")
+            XCTAssertEqual(tableViewCell.minTempLabel.text, "\(cityWeatherList[0].minTemp.formatted())°C")
+        }
+
+        waitForExpectations(timeout: 5, handler: nil)
     }
 
     func test_CityWeatherListViewController_Returns_Nil() throws {
