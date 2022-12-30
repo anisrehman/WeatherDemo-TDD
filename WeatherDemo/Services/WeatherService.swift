@@ -8,7 +8,7 @@
 import Foundation
 
 protocol WeatherServiceProtocol {
-    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?, Error?) -> Void)
+    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?, Error?) -> Void) async
 }
 
 class WeatherService: WeatherServiceProtocol {
@@ -17,12 +17,12 @@ class WeatherService: WeatherServiceProtocol {
         self.apiClient = client
     }
 
-    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?, Error?) -> Void) {
+    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?, Error?) -> Void) async {
         let parameters = [Constant.APIParameter.query: cityNameList[0], Constant.APIParameter.appID: Constant.apiKey]
         let urlComponents = URLComponents(string: Constant.getCityWeatherURL, parameters: parameters)
         let url = urlComponents.url!
         let request = URLRequest(url: url)
-        apiClient.sendRequest(request, with: URLSession.shared) { (weatherResponse: WeatherResponse?, error: APIError?) in
+        await apiClient.sendRequest(request, with: URLSession.shared) { (weatherResponse: WeatherResponse?, error: APIError?) in
             guard let weatherResponse = weatherResponse else {
                 completion(nil, error)
                 return

@@ -20,8 +20,8 @@ class CityWeatherListViewModel {
         self.weatherService = weatherService
     }
     //MARK: - Public Functions
-    func fetchCityWeathers() {
-        weatherService.getWeather(cityNameList: cityList) { [weak self] cityWeatherList, error in
+    func fetchCityWeathers() async {
+        await weatherService.getWeather(cityNameList: cityList) { [weak self] cityWeatherList, error in
             self?.cityWeatherList = cityWeatherList ?? []
         }
     }

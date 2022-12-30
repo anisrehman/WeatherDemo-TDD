@@ -20,7 +20,9 @@ class CityWeatherListViewController: UIViewController {
         // Do any additional setup after loading the view.
         setupUI()
         bindViews()
-        viewModel.fetchCityWeathers()
+        Task {
+            await viewModel.fetchCityWeathers()
+        }
     }
 }
 
