@@ -64,7 +64,7 @@ struct MockAPIClient: APIClientProtocol {
         self.coord = coord
     }
 
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSession, responseType: T.Type, completion: @escaping (T?, APIError?) -> Void) {
+    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSession, completion: @escaping (T?, APIError?) -> Void) {
         if returnsSuccess {
             let weatherResponse = WeatherResponse(name: "Multan", cod: 200, coord: coord, main: main, message: nil)
 

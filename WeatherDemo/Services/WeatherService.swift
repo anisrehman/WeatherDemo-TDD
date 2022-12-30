@@ -22,7 +22,7 @@ class WeatherService: WeatherServiceProtocol {
         let urlComponents = URLComponents(string: Constant.getCityWeatherURL, parameters: parameters)
         let url = urlComponents.url!
         let request = URLRequest(url: url)
-        apiClient.sendRequest(request, with: URLSession.shared, responseType: WeatherResponse.self) { weatherResponse, error in
+        apiClient.sendRequest(request, with: URLSession.shared) { (weatherResponse: WeatherResponse?, error: APIError?) in
             guard let weatherResponse = weatherResponse else {
                 completion(nil, error)
                 return

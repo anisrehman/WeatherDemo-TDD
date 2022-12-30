@@ -60,7 +60,7 @@ final class APIClientsTests: XCTestCase {
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession, responseType: WeatherResponse.self) { response, error in
+        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             XCTAssertNil(error)
             let response = try! XCTUnwrap(response)
             let main = try! XCTUnwrap(response.main)
@@ -84,7 +84,7 @@ final class APIClientsTests: XCTestCase {
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession, responseType: WeatherResponse.self) { response, error in
+        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             let response = try! XCTUnwrap(response)
             XCTAssertEqual(response.cod, 401)
             expectation.fulfill()
@@ -97,7 +97,7 @@ final class APIClientsTests: XCTestCase {
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: true, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession, responseType: WeatherResponse.self) { response, error in
+        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             XCTAssertNotNil(error)
             XCTAssertNil(response)
             expectation.fulfill()
@@ -110,7 +110,7 @@ final class APIClientsTests: XCTestCase {
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession, responseType: WeatherResponse.self) { response, error in
+        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             XCTAssertNotNil(error)
             XCTAssertNil(response)
             expectation.fulfill()
@@ -123,7 +123,7 @@ final class APIClientsTests: XCTestCase {
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 400, responseString: responseString)
         let client = APIClient()
-        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession, responseType: WeatherResponse.self) { response, error in
+        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             expectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)

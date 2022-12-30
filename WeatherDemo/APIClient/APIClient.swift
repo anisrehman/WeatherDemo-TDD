@@ -18,11 +18,11 @@ struct APIError: APIErrorProtocol {
 }
 
 protocol APIClientProtocol {
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSession, responseType: T.Type, completion: @escaping (T?, APIError?) -> Void)
+    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSession, completion: @escaping (T?, APIError?) -> Void)
 }
 
 struct APIClient: APIClientProtocol {
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSession, responseType: T.Type, completion: @escaping (T?, APIError?) -> Void) {
+    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSession, completion: @escaping (T?, APIError?) -> Void) {
         let task = urlSession.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completion(nil, APIError(code: -1, message: error!.localizedDescription))
