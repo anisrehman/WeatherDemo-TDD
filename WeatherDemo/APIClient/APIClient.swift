@@ -17,14 +17,22 @@ struct APIError: APIErrorProtocol {
     var message: String
 }
 
+protocol URLSessionProtocol {
+    func data(for request: URLRequest, delegate: URLSessionTaskDelegate?) async throws -> (Data, URLResponse)
+}
+
 protocol APIClientProtocol {
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSession, completion: @escaping (T?, APIError?) -> Void) async
+    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol, completion: @escaping (T?, APIError?) -> Void) async
+}
+
+extension URLSession: URLSessionProtocol {
+
 }
 
 struct APIClient: APIClientProtocol {
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSession, completion: @escaping (T?, APIError?) -> Void) async {
+    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol, completion: @escaping (T?, APIError?) -> Void) async {
         do {
-            let (data, response) = try await urlSession.data(for: request)
+            let (data, response) = try await urlSession.data(for: request, delegate: nil)
             let urlResponse = response as! HTTPURLResponse
             switch urlResponse.statusCode {
             case 200:

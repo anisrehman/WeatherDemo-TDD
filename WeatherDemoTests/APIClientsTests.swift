@@ -10,7 +10,7 @@ import XCTest
 
 final class APIClientsTests: XCTestCase {
 
-    func test_APIClient_Returns_Success_Response() {
+    func test_APIClient_Returns_Success_Response() async {
         let responseString = """
         {
             "coord": {
@@ -60,7 +60,7 @@ final class APIClientsTests: XCTestCase {
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+        await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             XCTAssertNil(error)
             let response = try! XCTUnwrap(response)
             let main = try! XCTUnwrap(response.main)
@@ -70,10 +70,10 @@ final class APIClientsTests: XCTestCase {
             XCTAssertEqual(main.temp_min, 291.09)
             expectation.fulfill()
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        await waitForExpectations(timeout: 5, handler: nil)
     }
 
-    func test_APIClient_Returns_Error_Response() {
+    func test_APIClient_Returns_Error_Response() async {
         let responseString = """
         {
             "cod": 401,
@@ -84,53 +84,54 @@ final class APIClientsTests: XCTestCase {
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+        await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             let response = try! XCTUnwrap(response)
             XCTAssertEqual(response.cod, 401)
             expectation.fulfill()
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        await waitForExpectations(timeout: 5, handler: nil)
     }
 
-    func test_APIClient_Returns_Throw_Connection_Error() {
+    func test_APIClient_Returns_Throw_Connection_Error() async {
         let responseString = ""
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: true, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+        await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             XCTAssertNotNil(error)
             XCTAssertNil(response)
             expectation.fulfill()
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        await waitForExpectations(timeout: 5, handler: nil)
     }
 
-    func test_APIClient_Returns_Parsing_Error() {
+    func test_APIClient_Returns_Parsing_Error() async {
         let responseString = ""
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+        await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             XCTAssertNotNil(error)
             XCTAssertNil(response)
             expectation.fulfill()
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        await waitForExpectations(timeout: 5, handler: nil)
     }
 
-    func test_APIClient_Returns_NotFound_Error() {
+    func test_APIClient_Returns_NotFound_Error() async {
         let responseString = ""
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 400, responseString: responseString)
         let client = APIClient()
-        client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+        await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             expectation.fulfill()
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        await waitForExpectations(timeout: 5, handler: nil)
     }
 }
 
-class MockURLSession: URLSession {
+class MockURLSession: URLSessionProtocol {
+
     let throwError: Bool
     let statusCode: Int
     let responseString: String
@@ -142,9 +143,15 @@ class MockURLSession: URLSession {
 
     }
 
-    override func dataTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        return MockURLSessionDataTask(throwError: throwError, statusCode: statusCode, responseString: responseString, completionHandler: completionHandler)
+    func data(for request: URLRequest, delegate: URLSessionTaskDelegate?) async throws -> (Data, URLResponse) {
+        let data = responseString.data(using: .utf8)
+        let response = HTTPURLResponse(url: URL(string: "https://google.com")!, statusCode: self.statusCode, httpVersion: nil, headerFields: nil)
+
+        return (data!, response!)
     }
+//    override func dataTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+//        return MockURLSessionDataTask(throwError: throwError, statusCode: statusCode, responseString: responseString, completionHandler: completionHandler)
+//    }
 }
 
 class MockURLSessionDataTask: URLSessionDataTask {

@@ -36,6 +36,7 @@ extension CityWeatherListViewController {
         viewModel.$cityWeatherList.sink { cityWeathers in
             DispatchQueue.main.async { [weak self] in
                 self?.cityWeatherList = cityWeathers
+                debugPrint("List count \(self?.cityWeatherList.count)")
                 self?.tableView.reloadData()
             }
         }.store(in: &subscribers)
@@ -45,7 +46,7 @@ extension CityWeatherListViewController {
 //MARK: - UITableViewDataSource
 extension CityWeatherListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        cityWeatherList.count
+        return cityWeatherList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
