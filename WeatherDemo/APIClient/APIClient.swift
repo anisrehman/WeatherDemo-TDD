@@ -51,29 +51,5 @@ struct APIClient: APIClientProtocol {
         } catch {
             completion(nil, APIError(code: -1, message: error.localizedDescription))
         }
-
-//        let task = urlSession.dataTask(with: request) { data, response, error in
-//            guard error == nil else {
-//                completion(nil, APIError(code: -1, message: error!.localizedDescription))
-//                return
-//            }
-//
-//            let urlResponse = response as! HTTPURLResponse
-//            switch urlResponse.statusCode {
-//            case 200:
-//                let result = try? JSONDecoder().decode(T.self, from: data!)
-//                if let result {
-//                    completion(result, nil)
-//                } else {
-//                    let error = APIError(code: -1, message: "JSON parsing error")
-//                    completion(nil, error)
-//                }
-//
-//            default:
-//                let error = APIError(code: urlResponse.statusCode, message: "Not found")
-//                completion(nil, error)
-//            }
-//        }
-//        task.resume()
     }
 }

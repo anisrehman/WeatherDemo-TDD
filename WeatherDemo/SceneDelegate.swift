@@ -20,13 +20,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: scene)
         self.window = window
         
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//
-//        let vc = storyboard.instantiateViewController(withIdentifier: "CityWeatherListViewController") as? CityWeatherListViewController
-//        let weatherService = WeatherService(client: APIClient())
-//        vc?.viewModel = CityWeatherListViewModel(weatherService: weatherService)
-//        self.window?.rootViewController = vc
-//        self.window?.makeKeyAndVisible()
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+        let vc = storyboard.instantiateViewController(withIdentifier: "CityWeatherListViewController") as? CityWeatherListViewController
+        let weatherService = WeatherService(client: APIClient())
+        vc?.viewModel = CityWeatherListViewModel(weatherService: weatherService)
+        self.window?.rootViewController = vc
+        self.window?.makeKeyAndVisible()
     }
 
 //    func sceneDidDisconnect(_ scene: UIScene) {

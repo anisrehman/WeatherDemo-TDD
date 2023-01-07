@@ -30,7 +30,7 @@ final class CityWeatherListViewControllerTests: XCTestCase {
         let dataSource = try XCTUnwrap(viewController.tableView.dataSource)
 
         let expect = expectation(description: "")
-        DispatchQueue.main.async { [unowned self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [unowned self] in
             let rowCount = dataSource.tableView(viewController.tableView, numberOfRowsInSection: 0)
             XCTAssertEqual(cityWeatherList.count, rowCount)
             let cell = dataSource.tableView(viewController.tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? CityWeatherTableViewCell
@@ -42,22 +42,21 @@ final class CityWeatherListViewControllerTests: XCTestCase {
             XCTAssertEqual(tableViewCell.minTempLabel.text, "\(cityWeatherList[0].minTemp.formatted())°C")
             expect.fulfill()
         }
-
-        wait(for: [expect], timeout: 15)
+        wait(for: [expect], timeout: 12)
     }
 
-//    func test_CityWeatherListViewController_Returns_Nil() throws {
-//
-//        let weatherService = MockWeatherService(cityWeathers: nil)
-//        viewController.viewModel = CityWeatherListViewModel(weatherService: weatherService)
-//        viewController.loadViewIfNeeded()
-//
-//        XCTAssertNotNil(viewController.tableView)
-//        let dataSource = try XCTUnwrap(viewController.tableView.dataSource)
-//
-//        let rowCount = dataSource.tableView(viewController.tableView, numberOfRowsInSection: 0)
-//        XCTAssertEqual(rowCount, 0)
-//    }
+    func test_CityWeatherListViewController_Returns_Nil() throws {
+
+        let weatherService = MockWeatherService(cityWeathers: nil)
+        viewController.viewModel = CityWeatherListViewModel(weatherService: weatherService)
+        viewController.loadViewIfNeeded()
+
+        XCTAssertNotNil(viewController.tableView)
+        let dataSource = try XCTUnwrap(viewController.tableView.dataSource)
+
+        let rowCount = dataSource.tableView(viewController.tableView, numberOfRowsInSection: 0)
+        XCTAssertEqual(rowCount, 0)
+    }
 }
 
 class MockWeatherService: WeatherServiceProtocol {

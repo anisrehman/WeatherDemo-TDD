@@ -144,36 +144,12 @@ class MockURLSession: URLSessionProtocol {
     }
 
     func data(for request: URLRequest, delegate: URLSessionTaskDelegate?) async throws -> (Data, URLResponse) {
+        if throwError {
+            throw NSError(domain: "connection error", code: -1)
+        }
         let data = responseString.data(using: .utf8)
         let response = HTTPURLResponse(url: URL(string: "https://google.com")!, statusCode: self.statusCode, httpVersion: nil, headerFields: nil)
 
         return (data!, response!)
-    }
-//    override func dataTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-//        return MockURLSessionDataTask(throwError: throwError, statusCode: statusCode, responseString: responseString, completionHandler: completionHandler)
-//    }
-}
-
-class MockURLSessionDataTask: URLSessionDataTask {
-    let throwError: Bool
-    let statusCode: Int
-    let responseString: String
-    var completionHandler: (Data?, URLResponse?, Error?) -> Void
-
-    init(throwError: Bool, statusCode: Int, responseString: String, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        self.throwError = throwError
-        self.statusCode = statusCode
-        self.responseString = responseString
-        self.completionHandler = completionHandler
-    }
-
-    override func resume() {
-        if throwError {
-            completionHandler(nil, nil, APIError(code: -1, message: "Internet connectivity"))
-            return
-        }
-        let data = responseString.data(using: .utf8)
-        let response = HTTPURLResponse(url: URL(string: "https://google.com")!, statusCode: self.statusCode, httpVersion: nil, headerFields: nil)
-        completionHandler(data, response, nil)
     }
 }
