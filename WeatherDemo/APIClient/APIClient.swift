@@ -7,14 +7,13 @@
 
 import Foundation
 
-protocol APIErrorProtocol: Error {
-    var code: Int { get }
-    var message: String { get }
-}
-
-struct APIError: APIErrorProtocol {
+struct APIError: LocalizedError {
     var code: Int
     var message: String
+
+    public var errorDescription: String? {
+        return message
+    }
 }
 
 protocol URLSessionProtocol {

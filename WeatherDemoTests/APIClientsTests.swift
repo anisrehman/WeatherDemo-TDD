@@ -99,6 +99,8 @@ final class APIClientsTests: XCTestCase {
         let client = APIClient()
         await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             XCTAssertNotNil(error)
+            let error = try! XCTUnwrap(error)
+            XCTAssertEqual(error.localizedDescription, error.message)
             XCTAssertNil(response)
             expectation.fulfill()
         }
