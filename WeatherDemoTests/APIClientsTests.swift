@@ -60,7 +60,7 @@ final class APIClientsTests: XCTestCase {
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+        try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             XCTAssertNil(error)
             let response = try! XCTUnwrap(response)
             let main = try! XCTUnwrap(response.main)
@@ -84,7 +84,7 @@ final class APIClientsTests: XCTestCase {
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+        try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             let response = try! XCTUnwrap(response)
             XCTAssertEqual(response.cod, 401)
             expectation.fulfill()
@@ -94,17 +94,19 @@ final class APIClientsTests: XCTestCase {
 
     func test_APIClient_Returns_Throw_Connection_Error() async {
         let responseString = ""
-        let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: true, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+
+        do {
+            try await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+
+            }
+        } catch let error {
+            let error = error as? APIError
             XCTAssertNotNil(error)
-            let error = try! XCTUnwrap(error)
-            XCTAssertEqual(error.localizedDescription, error.message)
-            XCTAssertNil(response)
-            expectation.fulfill()
+            let e = try! XCTUnwrap(error)
+            XCTAssertEqual(e.localizedDescription, e.message)
         }
-        await waitForExpectations(timeout: 5, handler: nil)
     }
 
     func test_APIClient_Returns_Parsing_Error() async {
@@ -112,7 +114,7 @@ final class APIClientsTests: XCTestCase {
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+        try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             XCTAssertNotNil(error)
             XCTAssertNil(response)
             expectation.fulfill()
@@ -125,7 +127,7 @@ final class APIClientsTests: XCTestCase {
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 400, responseString: responseString)
         let client = APIClient()
-        await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+        try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
             expectation.fulfill()
         }
         await waitForExpectations(timeout: 5, handler: nil)
