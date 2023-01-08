@@ -60,8 +60,7 @@ final class APIClientsTests: XCTestCase {
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
-            XCTAssertNil(error)
+        try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?) in
             let response = try! XCTUnwrap(response)
             let main = try! XCTUnwrap(response.main)
             XCTAssertNotNil(response.coord)
@@ -84,7 +83,7 @@ final class APIClientsTests: XCTestCase {
         let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+        try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?) in
             let response = try! XCTUnwrap(response)
             XCTAssertEqual(response.cod, 401)
             expectation.fulfill()
@@ -98,7 +97,7 @@ final class APIClientsTests: XCTestCase {
         let client = APIClient()
 
         do {
-            try await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+            try await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?) in
 
             }
         } catch let error {
@@ -111,26 +110,26 @@ final class APIClientsTests: XCTestCase {
 
     func test_APIClient_Returns_Parsing_Error() async {
         let responseString = ""
-        let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
         let client = APIClient()
-        try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
+        do {
+            try await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?) in
+            }
+        } catch {
             XCTAssertNotNil(error)
-            XCTAssertNil(response)
-            expectation.fulfill()
         }
-        await waitForExpectations(timeout: 5, handler: nil)
     }
 
     func test_APIClient_Returns_NotFound_Error() async {
         let responseString = ""
-        let expectation = self.expectation(description: "API called")
         let mockSession = MockURLSession(throwError: false, statusCode: 400, responseString: responseString)
         let client = APIClient()
-        try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?, error: APIError?) in
-            expectation.fulfill()
+        do {
+            try await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession) { (response: WeatherResponse?) in
+            }
+        } catch {
+            XCTAssertNotNil(error)
         }
-        await waitForExpectations(timeout: 5, handler: nil)
     }
 }
 

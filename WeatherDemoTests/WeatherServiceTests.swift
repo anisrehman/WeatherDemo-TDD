@@ -16,7 +16,7 @@ final class WeatherServiceTests: XCTestCase {
         let main = WeatherResponse.Main(temp: 297.09, temp_min: 297.09, temp_max: 297.09)
         let service = WeatherService(client: MockAPIClient(returnsSuccess: true, main: main, coord: coord))
         var weather: CityWeather?
-        await service.getWeather(cityNameList: ["Multan"]) { cityWeatherList, error in
+        try? await service.getWeather(cityNameList: ["Multan"]) { cityWeatherList in
             if let cityWeatherList, cityWeatherList.count > 0 {
                 weather = cityWeatherList[0]
             }
@@ -29,22 +29,20 @@ final class WeatherServiceTests: XCTestCase {
     }
 
     func test_Fetch_Weather_Failed() async throws {
-        let expectation = self.expectation(description: "Weather Fetched")
         let service = WeatherService(client: MockAPIClient(returnsSuccess: false, main: nil, coord: nil))
-        var weatherList: [CityWeather]?
-        await service.getWeather(cityNameList: ["Multan"]) { cityWeatherList, error in
-            weatherList = cityWeatherList
-            expectation.fulfill()
+        do {
+            try await service.getWeather(cityNameList: ["Multan"]) { cityWeatherList in
+            }
+        } catch {
+            XCTAssertNotNil(error)
         }
-        await waitForExpectations(timeout: 5, handler: nil)
-        XCTAssertNil(weatherList)
     }
 
     func test_Fetch_Weather_Missing_Data() async throws {
         let expectation = self.expectation(description: "Weather Fetched")
         let service = WeatherService(client: MockAPIClient(returnsSuccess: true, main: nil, coord: nil))
         var weatherList: [CityWeather]?
-        await service.getWeather(cityNameList: ["Multan"]) { cityWeatherList, error in
+        try? await service.getWeather(cityNameList: ["Multan"]) { cityWeatherList in
             weatherList = cityWeatherList
             expectation.fulfill()
         }
@@ -64,15 +62,13 @@ struct MockAPIClient: APIClientProtocol {
         self.coord = coord
     }
 
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol, completion: @escaping (T?, APIError?) -> Void) {
+    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol, completion: @escaping (T?) -> Void) throws {
         if returnsSuccess {
             let weatherResponse = WeatherResponse(name: "Multan", cod: 200, coord: coord, main: main, message: nil)
 
-            completion(weatherResponse as? T, nil)
+            completion(weatherResponse as? T)
         } else {
-            completion(nil, APIError(code: -1, message: "Parsing error"))
+            throw APIError(code: -1, message: "Parsing error")
         }
     }
 }
-
-

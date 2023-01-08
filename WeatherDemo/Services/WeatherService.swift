@@ -8,7 +8,7 @@
 import Foundation
 
 protocol WeatherServiceProtocol {
-    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?, Error?) -> Void) async
+    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?) -> Void) async throws
 }
 
 class WeatherService: WeatherServiceProtocol {
@@ -17,25 +17,31 @@ class WeatherService: WeatherServiceProtocol {
         self.apiClient = client
     }
 
-    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?, Error?) -> Void) async {
+    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?) -> Void) async throws {
         let parameters = [Constant.APIParameter.query: cityNameList[0], Constant.APIParameter.appID: Constant.apiKey]
         let urlComponents = URLComponents(string: Constant.getCityWeatherURL, parameters: parameters)
         let url = urlComponents.url!
         let request = URLRequest(url: url)
-        try? await apiClient.sendRequest(request, with: URLSession.shared) { (weatherResponse: WeatherResponse?, error: APIError?) in
-            guard let weatherResponse = weatherResponse else {
-                completion(nil, error)
-                return
-            }
 
-            guard let name = weatherResponse.name, let main = weatherResponse.main, let coord = weatherResponse.coord else {
-                completion(nil, APIError(code: -1, message: "Missing weather data"))
-                return
-            }
+        do {
+            try await apiClient.sendRequest(request, with: URLSession.shared) { (weatherResponse: WeatherResponse?) in
+                guard let weatherResponse = weatherResponse else {
+                    completion(nil)
+                    return
+                }
 
-            let cityWeather = CityWeather(city: name, lat: coord.lat, lon: coord.lon, temp: main.temp, minTemp: main.temp_min, maxTemp: main.temp_max, iconURL: "")
-            completion([cityWeather], error)
+                guard let name = weatherResponse.name, let main = weatherResponse.main, let coord = weatherResponse.coord else {
+                    completion(nil)
+                    return
+                }
+
+                let cityWeather = CityWeather(city: name, lat: coord.lat, lon: coord.lon, temp: main.temp, minTemp: main.temp_min, maxTemp: main.temp_max, iconURL: "")
+                completion([cityWeather])
+            }
+        } catch {
+            throw error
         }
+
     }
 }
 
@@ -71,7 +77,3 @@ struct WeatherResponse: Decodable {
         let temp_max: Double
     }
 }
-
-
-
-

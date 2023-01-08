@@ -21,7 +21,7 @@ protocol URLSessionProtocol {
 }
 
 protocol APIClientProtocol {
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol, completion: @escaping (T?, APIError?) -> Void) async throws
+    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol, completion: @escaping (T?) -> Void) async throws
 }
 
 extension URLSession: URLSessionProtocol {
@@ -29,7 +29,7 @@ extension URLSession: URLSessionProtocol {
 }
 
 struct APIClient: APIClientProtocol {
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol, completion: @escaping (T?, APIError?) -> Void) async throws {
+    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol, completion: @escaping (T?) -> Void) async throws {
         do {
             let (data, response) = try await urlSession.data(for: request, delegate: nil)
             let urlResponse = response as! HTTPURLResponse
@@ -37,18 +37,17 @@ struct APIClient: APIClientProtocol {
             case 200:
                 let result = try? JSONDecoder().decode(T.self, from: data)
                 if let result {
-                    completion(result, nil)
+                    completion(result)
                 } else {
                     let error = APIError(code: -1, message: "JSON parsing error")
-                    completion(nil, error)
+                    throw error
                 }
 
             default:
                 let error = APIError(code: urlResponse.statusCode, message: "Not found")
-                completion(nil, error)
+                throw error
             }
         } catch {
-//            completion(nil, APIError(code: -1, message: error.localizedDescription))
             throw APIError(code: -1, message: error.localizedDescription)
         }
     }
