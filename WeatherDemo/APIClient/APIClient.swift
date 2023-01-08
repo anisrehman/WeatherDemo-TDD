@@ -21,7 +21,7 @@ protocol URLSessionProtocol {
 }
 
 protocol APIClientProtocol {
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol, completion: @escaping (T?) -> Void) async throws
+    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol) async throws -> T
 }
 
 extension URLSession: URLSessionProtocol {
@@ -29,7 +29,7 @@ extension URLSession: URLSessionProtocol {
 }
 
 struct APIClient: APIClientProtocol {
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol, completion: @escaping (T?) -> Void) async throws {
+    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol) async throws -> T {
         do {
             let (data, response) = try await urlSession.data(for: request, delegate: nil)
             let urlResponse = response as! HTTPURLResponse
@@ -37,7 +37,7 @@ struct APIClient: APIClientProtocol {
             case 200:
                 let result = try? JSONDecoder().decode(T.self, from: data)
                 if let result {
-                    completion(result)
+                    return result
                 } else {
                     let error = APIError(code: -1, message: "JSON parsing error")
                     throw error

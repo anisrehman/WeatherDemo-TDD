@@ -24,20 +24,19 @@ class WeatherService: WeatherServiceProtocol {
         let request = URLRequest(url: url)
 
         do {
-            try await apiClient.sendRequest(request, with: URLSession.shared) { (weatherResponse: WeatherResponse?) in
-                guard let weatherResponse = weatherResponse else {
-                    completion(nil)
-                    return
-                }
-
-                guard let name = weatherResponse.name, let main = weatherResponse.main, let coord = weatherResponse.coord else {
-                    completion(nil)
-                    return
-                }
-
-                let cityWeather = CityWeather(city: name, lat: coord.lat, lon: coord.lon, temp: main.temp, minTemp: main.temp_min, maxTemp: main.temp_max, iconURL: "")
-                completion([cityWeather])
+            let weatherResponse: WeatherResponse? = try await apiClient.sendRequest(request, with: URLSession.shared)
+            guard let weatherResponse = weatherResponse else {
+                completion(nil)
+                return
             }
+
+            guard let name = weatherResponse.name, let main = weatherResponse.main, let coord = weatherResponse.coord else {
+                completion(nil)
+                return
+            }
+
+            let cityWeather = CityWeather(city: name, lat: coord.lat, lon: coord.lon, temp: main.temp, minTemp: main.temp_min, maxTemp: main.temp_max, iconURL: "")
+            completion([cityWeather])
         } catch {
             throw error
         }
