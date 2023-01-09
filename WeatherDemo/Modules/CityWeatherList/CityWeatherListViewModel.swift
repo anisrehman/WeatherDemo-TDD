@@ -21,8 +21,7 @@ class CityWeatherListViewModel {
     }
     //MARK: - Public Functions
     func fetchCityWeathers() async {
-        try? await weatherService.getWeather(cityNameList: cityList) { [weak self] cityWeatherList in
-            self?.cityWeatherList = cityWeatherList ?? []
-        }
+        let cityWeatherList = await weatherService.getWeather(cityNameList: cityList)
+        self.cityWeatherList = cityWeatherList
     }
 }

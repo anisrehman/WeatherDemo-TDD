@@ -8,7 +8,7 @@
 import Foundation
 
 protocol WeatherServiceProtocol {
-    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?) -> Void) async throws
+    func getWeather(cityNameList: [String]) async -> [CityWeather]
 }
 
 class WeatherService: WeatherServiceProtocol {
@@ -17,7 +17,7 @@ class WeatherService: WeatherServiceProtocol {
         self.apiClient = client
     }
 
-    func getWeather(cityNameList: [String], completion: @escaping ([CityWeather]?) -> Void) async throws {
+    func getWeather(cityNameList: [String]) async -> [CityWeather] {
         let parameters = [Constant.APIParameter.query: cityNameList[0], Constant.APIParameter.appID: Constant.apiKey]
         let urlComponents = URLComponents(string: Constant.getCityWeatherURL, parameters: parameters)
         let url = urlComponents.url!
@@ -25,22 +25,16 @@ class WeatherService: WeatherServiceProtocol {
 
         do {
             let weatherResponse: WeatherResponse? = try await apiClient.sendRequest(request, with: URLSession.shared)
-            guard let weatherResponse = weatherResponse else {
-                completion(nil)
-                return
-            }
-
-            guard let name = weatherResponse.name, let main = weatherResponse.main, let coord = weatherResponse.coord else {
-                completion(nil)
-                return
+            
+            guard let weatherResponse = weatherResponse, let name = weatherResponse.name, let main = weatherResponse.main, let coord = weatherResponse.coord else {
+                return []
             }
 
             let cityWeather = CityWeather(city: name, lat: coord.lat, lon: coord.lon, temp: main.temp, minTemp: main.temp_min, maxTemp: main.temp_max, iconURL: "")
-            completion([cityWeather])
+            return [cityWeather]
         } catch {
-            throw error
+            return []
         }
-
     }
 }
 
