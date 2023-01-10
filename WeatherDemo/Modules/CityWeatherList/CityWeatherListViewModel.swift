@@ -13,7 +13,7 @@ class CityWeatherListViewModel {
     
     //MARK: - Private Properties
     var weatherService: WeatherServiceProtocol!
-    let cityList = ["Multan"]
+    let cityList = ["Islamabad", "Karachi", "Lahore", "Peshawar", "Quetta", "Multan"]
     
     //MARK: - Initializers
     init(weatherService: WeatherServiceProtocol) {

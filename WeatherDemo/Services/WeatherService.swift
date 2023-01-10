@@ -18,27 +18,42 @@ class WeatherService: WeatherServiceProtocol {
     }
 
     func getWeather(cityNameList: [String]) async -> [CityWeather] {
-        let parameters = [Constant.APIParameter.query: cityNameList[0], Constant.APIParameter.appID: Constant.apiKey]
+        var cityWeatherList: [CityWeather] = []
+        for cityName in cityNameList {
+            if let weather = await getWeather(cityName: cityName) {
+                cityWeatherList.append(weather)
+            }
+        }
+        return cityWeatherList
+    }
+
+
+}
+
+//MARK: - Private Function
+extension WeatherService {
+    private func getWeather(cityName: String) async -> CityWeather? {
+        let parameters = [Constant.APIParameter.query: cityName, Constant.APIParameter.appID: Constant.apiKey]
         let urlComponents = URLComponents(string: Constant.getCityWeatherURL, parameters: parameters)
         let url = urlComponents.url!
         let request = URLRequest(url: url)
 
         do {
             let weatherResponse: WeatherResponse? = try await apiClient.sendRequest(request, with: URLSession.shared)
-            
+
             guard let weatherResponse = weatherResponse, let name = weatherResponse.name, let main = weatherResponse.main, let coord = weatherResponse.coord else {
-                return []
+                return nil
             }
 
             let cityWeather = CityWeather(city: name, lat: coord.lat, lon: coord.lon, temp: main.temp, minTemp: main.temp_min, maxTemp: main.temp_max, iconURL: "")
-            return [cityWeather]
+            return cityWeather
         } catch {
-            return []
+            return nil
         }
     }
 }
 
-//MARK: - Private Functions
+//MARK: - URLComponents Extension
 extension URLComponents {
     init(string: String, parameters: [String: String]) {
         var queryItems: [URLQueryItem] = []
@@ -52,6 +67,7 @@ extension URLComponents {
     }
 }
 
+//MARK: - WeatherResponse
 struct WeatherResponse: Decodable {
     let name: String?
     let cod: Int
