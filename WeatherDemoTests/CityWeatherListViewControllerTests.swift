@@ -37,9 +37,9 @@ final class CityWeatherListViewControllerTests: XCTestCase {
             let tableViewCell = try! XCTUnwrap(cell)
 
             XCTAssertEqual(tableViewCell.cityLabel.text, cityWeatherList[0].city)
-            XCTAssertEqual(tableViewCell.tempLabel.text, "\(cityWeatherList[0].temp.formatted())°C")
-            XCTAssertEqual(tableViewCell.maxTempLabel.text, "\(cityWeatherList[0].maxTemp.formatted())°C")
-            XCTAssertEqual(tableViewCell.minTempLabel.text, "\(cityWeatherList[0].minTemp.formatted())°C")
+            XCTAssertEqual(tableViewCell.tempLabel.text, "\(Int(cityWeatherList[0].temp))°")
+            XCTAssertEqual(tableViewCell.maxTempLabel.text, "\(Int(cityWeatherList[0].maxTemp))°")
+            XCTAssertEqual(tableViewCell.minTempLabel.text, "\(Int(cityWeatherList[0].minTemp))°")
             expect.fulfill()
         }
         wait(for: [expect], timeout: 12)

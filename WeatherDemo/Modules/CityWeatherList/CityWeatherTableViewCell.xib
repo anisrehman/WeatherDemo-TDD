@@ -16,15 +16,22 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cloud.heavyrain.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="t64-4f-snT">
+                        <rect key="frame" x="15" y="4.3333333333333357" width="35" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="35" id="S2s-B8-nRc"/>
+                            <constraint firstAttribute="height" constant="35" id="fEJ-VF-6f0"/>
+                        </constraints>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ihy-0q-Isz">
-                        <rect key="frame" x="15" y="11.666666666666664" width="42" height="21"/>
+                        <rect key="frame" x="60" y="11.666666666666664" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HN0-Ix-jod">
-                        <rect key="frame" x="122" y="11.666666666666664" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <rect key="frame" x="130.66666666666666" y="10.666666666666664" width="49.333333333333343" height="23"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -35,19 +42,21 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xd4-Ip-Qid">
-                        <rect key="frame" x="216" y="11.666666666666664" width="42" height="21"/>
+                        <rect key="frame" x="208" y="11.666666666666664" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="rL5-K6-FrF" firstAttribute="leading" secondItem="Xd4-Ip-Qid" secondAttribute="trailing" constant="5" id="KTO-9a-acK"/>
+                    <constraint firstItem="Ihy-0q-Isz" firstAttribute="leading" secondItem="t64-4f-snT" secondAttribute="trailing" constant="10" id="1jX-ZS-3xW"/>
+                    <constraint firstAttribute="trailing" secondItem="HN0-Ix-jod" secondAttribute="trailing" constant="140" id="Det-qW-uWh"/>
                     <constraint firstItem="Ihy-0q-Isz" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="KUN-Jy-qab"/>
+                    <constraint firstAttribute="trailing" secondItem="Xd4-Ip-Qid" secondAttribute="trailing" constant="70" id="L6F-WW-g11"/>
+                    <constraint firstItem="t64-4f-snT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Uxe-bH-Nzt"/>
                     <constraint firstAttribute="trailing" secondItem="rL5-K6-FrF" secondAttribute="trailing" constant="15" id="XIn-X3-Z6X"/>
-                    <constraint firstItem="HN0-Ix-jod" firstAttribute="leading" secondItem="Ihy-0q-Isz" secondAttribute="trailing" constant="65" id="hAa-UO-PEv"/>
-                    <constraint firstItem="Ihy-0q-Isz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="jQg-8t-zBP"/>
                     <constraint firstItem="rL5-K6-FrF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="k7X-F9-9th"/>
+                    <constraint firstItem="t64-4f-snT" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ldd-F6-Grc"/>
                     <constraint firstItem="Xd4-Ip-Qid" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="qoE-xI-dGk"/>
                     <constraint firstItem="HN0-Ix-jod" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="xzp-7A-ocg"/>
                 </constraints>
@@ -59,7 +68,10 @@
                 <outlet property="minTempLabel" destination="Xd4-Ip-Qid" id="rV9-xQ-qR9"/>
                 <outlet property="tempLabel" destination="HN0-Ix-jod" id="RiU-4m-wzP"/>
             </connections>
-            <point key="canvasLocation" x="111" y="-11"/>
+            <point key="canvasLocation" x="109.9236641221374" y="-11.267605633802818"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="cloud.heavyrain.fill" catalog="system" width="126" height="128"/>
+    </resources>
 </document>

@@ -21,9 +21,9 @@ class CityWeatherTableViewCell: UITableViewCell {
 
     func configure(weather: CityWeather) {
         cityLabel.text = weather.city
-        tempLabel.text = "\(weather.temp.formatted())°C"
-        maxTempLabel.text = "\(weather.maxTemp.formatted())°C"
-        minTempLabel.text = "\(weather.minTemp.formatted())°C"
+        tempLabel.text = "\(Int(weather.temp))°"
+        maxTempLabel.text = "\(Int(weather.maxTemp))°"
+        minTempLabel.text = "\(Int(weather.minTemp))°"
     }
     
 }
