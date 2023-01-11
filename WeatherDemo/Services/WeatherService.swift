@@ -26,8 +26,6 @@ class WeatherService: WeatherServiceProtocol {
         }
         return cityWeatherList
     }
-
-
 }
 
 //MARK: - Private Function
@@ -73,6 +71,7 @@ struct WeatherResponse: Decodable {
     let cod: Int
     let coord: Coord?
     let main: Main?
+    let weather: [Weather]?
     let message: String?
 
     struct Coord: Decodable {
@@ -84,5 +83,12 @@ struct WeatherResponse: Decodable {
         let temp: Double
         let temp_min: Double
         let temp_max: Double
+    }
+
+    struct Weather: Decodable {
+        let id: Int
+        let main: String
+        let description: String
+        let icon: String
     }
 }

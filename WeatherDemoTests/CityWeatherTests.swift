@@ -11,10 +11,10 @@ import XCTest
 final class CityWeatherTests: XCTestCase {
 
     func testCityWeatherModel() throws {
-        let cityWeather = CityWeather(city: "Multan", lat: 0.4, lon: 0.4, temp: 7, minTemp: 4, maxTemp: 44, iconURL: "")
+        let cityWeather = CityWeather(city: "Multan", lat: 0.4, lon: 0.4, temp: 7, minTemp: 4, maxTemp: 44, iconURL: "https://openweathermap.org/img/wn/50n@2x.png")
         XCTAssertNotNil(cityWeather.city)
         XCTAssertNotEqual(cityWeather.city, "")
         XCTAssertEqual(cityWeather.city, "Multan")
-        XCTAssertNotNil(cityWeather.iconURL)
+        XCTAssertEqual(cityWeather.iconURL, "https://openweathermap.org/img/wn/50n@2x.png")
     }
 }

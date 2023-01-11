@@ -61,10 +61,13 @@ final class APIClientsTests: XCTestCase {
         let client = APIClient()
         let response: WeatherResponse? = try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession)
         let main = try! XCTUnwrap(response?.main)
+        let weather = try! XCTUnwrap(response?.weather)
         XCTAssertNotNil(response?.coord)
         XCTAssertEqual(response?.name, "Multan")
         XCTAssertEqual(main.temp_max, 291.09)
         XCTAssertEqual(main.temp_min, 291.09)
+        XCTAssertEqual(weather.count, 1)
+        XCTAssertEqual(weather[0].icon, "50n")
     }
 
     func test_APIClient_Returns_Error_Response() async {
