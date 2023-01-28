@@ -13,7 +13,8 @@ class CityWeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var minTempLabel: UILabel!
-    
+    @IBOutlet weak var weatherImageView: UIImageView!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -24,6 +25,7 @@ class CityWeatherTableViewCell: UITableViewCell {
         tempLabel.text = "\(Int(weather.temp))°"
         maxTempLabel.text = "\(Int(weather.maxTemp))°"
         minTempLabel.text = "\(Int(weather.minTemp))°"
+        weatherImageView.setImage(from: "")
+        weatherImageView.contentMode = .scaleAspectFill
     }
-    
 }

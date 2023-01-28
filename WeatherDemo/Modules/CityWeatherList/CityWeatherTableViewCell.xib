@@ -67,6 +67,7 @@
                 <outlet property="maxTempLabel" destination="rL5-K6-FrF" id="oOl-5S-Eac"/>
                 <outlet property="minTempLabel" destination="Xd4-Ip-Qid" id="rV9-xQ-qR9"/>
                 <outlet property="tempLabel" destination="HN0-Ix-jod" id="RiU-4m-wzP"/>
+                <outlet property="weatherImageView" destination="t64-4f-snT" id="4kK-QG-c0H"/>
             </connections>
             <point key="canvasLocation" x="109.9236641221374" y="-11.267605633802818"/>
         </tableViewCell>
