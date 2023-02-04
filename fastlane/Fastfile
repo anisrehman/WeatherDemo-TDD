@@ -1,0 +1,42 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Description of what the lane does"
+  lane :build_and_test do
+    # add actions here: https://docs.fastlane.tools/actions
+    sh("rm -r ../xcov_output")
+    xcodebuild(
+        scheme: "WeatherDemo",
+        configuration: "Debug",
+        raw_buildlog: true,
+        xcargs: "-sdk iphonesimulator SYMROOT='/var/tmp/'"
+    )
+     xctest(
+        destination: "name=iPhone SE (3rd generation),OS=16.2",
+        scheme: "WeatherDemo"
+    )
+    xcov(
+        scheme: "WeatherDemo",
+        output_directory: "xcov_output"
+    )
+    $coverage = sh("cat ../xcov_output/index.html | grep '\\d\\+.\\d\\+\\%' -o | head -1").strip
+    if $coverage != '100.00%'
+        UI.user_error!("Coverage must be 100%")
+    end
+  end
+end
