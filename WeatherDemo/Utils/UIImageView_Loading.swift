@@ -21,6 +21,7 @@ class URLImageLoader: URLImageLoaderProtocol {
         if let data = try? Data(contentsOf: url) {
             return UIImage(data: data)
         }
+        
         return nil
     }
 }
