@@ -19,7 +19,7 @@ platform :ios do
   desc "Description of what the lane does"
   lane :build_and_test do
     # add actions here: https://docs.fastlane.tools/actions
-    sh("rm -r ../xcov_output")
+    sh("rm -f -r ../xcov_output")
     xcodebuild(
         scheme: "WeatherDemo",
         configuration: "Debug",
