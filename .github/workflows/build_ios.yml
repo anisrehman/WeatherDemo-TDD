@@ -8,4 +8,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Print Current Path
+      - run: fastlane build_and_test
+      - name: Build, Test and Coverage
       - run: fastlane build_and_test
