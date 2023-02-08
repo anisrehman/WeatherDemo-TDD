@@ -3,3 +3,4 @@ xcschemes/
 project.xcworkspace/
 build/
 xcshareddata
+xcov_output/

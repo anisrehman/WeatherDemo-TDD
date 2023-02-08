@@ -18,7 +18,6 @@ default_platform(:ios)
 platform :ios do
   desc "Description of what the lane does"
   lane :build_and_test do
-    # add actions here: https://docs.fastlane.tools/actions
     sh("rm -f -r ../xcov_output")
     xcodebuild(
         scheme: "WeatherDemo",
@@ -33,11 +32,8 @@ platform :ios do
     )
     xcov(
         scheme: "WeatherDemo",
-        output_directory: "xcov_output"
+        output_directory: "xcov_output",
+        minimum_coverage_percentage: 100.0
     )
-    $coverage = sh("cat ../xcov_output/index.html | grep '\\d\\+.\\d\\+\\%' -o | head -1").strip
-    if $coverage != '100.00%'
-        UI.user_error!("Coverage must be 100%")
-    end
   end
 end
