@@ -5,32 +5,32 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000174">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000176">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: rm -r ../xcov_output" time="0.00545">
+      <testcase classname="fastlane.lanes" name="1: rm -f -r ../xcov_output" time="0.004575">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: xcodebuild" time="7.687817">
+      <testcase classname="fastlane.lanes" name="2: xcodebuild" time="7.02629">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: xctest" time="25.39389">
+      <testcase classname="fastlane.lanes" name="3: xctest" time="24.551388">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="4: xcov" time="11.3884">
+      <testcase classname="fastlane.lanes" name="4: xcov" time="10.604025">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="5: cat ../xcov_output/index.html | grep &apos;\d\+.\d\+\%&apos; -o | head -1" time="0.008533">
+      <testcase classname="fastlane.lanes" name="5: cat ../xcov_output/index.html | grep &apos;\d\+.\d\+\%&apos; -o | head -1" time="0.008381">
         
       </testcase>
     

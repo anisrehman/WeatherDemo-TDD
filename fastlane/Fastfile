@@ -28,7 +28,8 @@ platform :ios do
     )
      xctest(
         destination: "name=iPhone SE (3rd generation),OS=16.2",
-        scheme: "WeatherDemo"
+        scheme: "WeatherDemo",
+        enable_code_coverage: true
     )
     xcov(
         scheme: "WeatherDemo",
