@@ -36,7 +36,6 @@ extension CityWeatherListViewController {
         viewModel.$cityWeatherList.sink { cityWeathers in
             DispatchQueue.main.async { [weak self] in
                 self?.cityWeatherList = cityWeathers
-                debugPrint("List count \(self?.cityWeatherList.count)")
                 self?.tableView.reloadData()
             }
         }.store(in: &subscribers)

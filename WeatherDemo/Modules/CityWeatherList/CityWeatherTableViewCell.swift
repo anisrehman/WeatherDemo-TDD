@@ -25,7 +25,7 @@ class CityWeatherTableViewCell: UITableViewCell {
         tempLabel.text = "\(Int(weather.temp))°"
         maxTempLabel.text = "\(Int(weather.maxTemp))°"
         minTempLabel.text = "\(Int(weather.minTemp))°"
-        weatherImageView.setImage(from: "")
+        weatherImageView.setImage(from: weather.iconURL)
         weatherImageView.contentMode = .scaleAspectFill
     }
 }

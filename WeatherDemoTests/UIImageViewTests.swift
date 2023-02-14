@@ -21,7 +21,7 @@ final class UIImageViewTests: XCTestCase {
     }
 }
 
-class MockURLImageLoader: URLImageLoaderProtocol {
+class MockURLImageLoader: URLImageLoading {
     func getImage(from urlString: String) async -> UIImage? {
         return UIImage(systemName: "info.circle")
     }

@@ -12,6 +12,7 @@ protocol WeatherServiceProtocol {
 }
 
 class WeatherService: WeatherServiceProtocol {
+    let iconBaseURL = "https://openweathermap.org/img/wn/"
     let apiClient: APIClientProtocol!
     init(client: APIClientProtocol) {
         self.apiClient = client
@@ -39,11 +40,16 @@ extension WeatherService {
         do {
             let weatherResponse: WeatherResponse? = try await apiClient.sendRequest(request, with: URLSession.shared)
 
-            guard let weatherResponse = weatherResponse, let name = weatherResponse.name, let main = weatherResponse.main, let coord = weatherResponse.coord else {
+            guard let weatherResponse = weatherResponse,
+                    let name = weatherResponse.name,
+                    let main = weatherResponse.main,
+                    let coord = weatherResponse.coord,
+                    let weather = weatherResponse.weather?[0] else {
                 return nil
             }
-
-            let cityWeather = CityWeather(city: name, lat: coord.lat, lon: coord.lon, temp: main.temp, minTemp: main.temp_min, maxTemp: main.temp_max, iconURL: "")
+            let iconURL = "\(iconBaseURL)\(weather.icon)@2x.png"
+            debugPrint(iconURL)
+            let cityWeather = CityWeather(city: name, lat: coord.lat, lon: coord.lon, temp: main.temp, minTemp: main.temp_min, maxTemp: main.temp_max, iconURL: iconURL)
             return cityWeather
         } catch {
             return nil
