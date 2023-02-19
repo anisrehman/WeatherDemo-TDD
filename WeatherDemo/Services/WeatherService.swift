@@ -19,13 +19,23 @@ class WeatherService: WeatherServiceProtocol {
     }
 
     func getWeather(cityNameList: [String]) async -> [CityWeather] {
-        var cityWeatherList: [CityWeather] = []
-        for cityName in cityNameList {
-            if let weather = await getWeather(cityName: cityName) {
-                cityWeatherList.append(weather)
+        await withTaskGroup(of: CityWeather?.self, body: { [self] taskGroup in
+            let startTime = Date.now
+            for cityName in cityNameList {
+                taskGroup.addTask {
+                    await self.getWeather(cityName: cityName)
+                }
             }
-        }
-        return cityWeatherList
+
+            var weathers: [CityWeather] = []
+            for await result in taskGroup {
+                if let result = result {
+                    weathers.append(result)
+                }
+            }
+            print("execution time\(Date.now.distance(to: startTime))")
+            return weathers
+        })
     }
 }
 
