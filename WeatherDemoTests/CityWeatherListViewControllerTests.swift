@@ -25,6 +25,7 @@ final class CityWeatherListViewControllerTests: XCTestCase {
 
         let weatherService = MockWeatherService(cityWeathers: cityWeatherList)
         viewController.viewModel = CityWeatherListViewModel(weatherService: weatherService)
+        viewController.router = CityWeatherRouter(navigationController: UINavigationController())
         viewController.loadViewIfNeeded()
         XCTAssertNotNil(viewController.tableView)
         let dataSource = try XCTUnwrap(viewController.tableView.dataSource)
@@ -43,6 +44,15 @@ final class CityWeatherListViewControllerTests: XCTestCase {
             expect.fulfill()
         }
         wait(for: [expect], timeout: 12)
+
+        // Open forecast screen.
+        let vcCount = viewController.router.navigationController.viewControllers.count
+        let delegate = try XCTUnwrap(viewController.tableView.delegate)
+        delegate.tableView?(viewController.tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
+        XCTAssertNotNil(viewController.router.navigationController)
+        //VC count has been increased
+        XCTAssertEqual(viewController.router.navigationController.viewControllers.count, vcCount + 1)
+
     }
 
     func test_CityWeatherListViewController_Returns_Nil() throws {

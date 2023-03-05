@@ -19,14 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: scene)
         self.window = window
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
-        let vc = storyboard.instantiateViewController(withIdentifier: "CityWeatherListViewController") as? CityWeatherListViewController
-        let weatherService = WeatherService(client: APIClient())
-        vc?.viewModel = CityWeatherListViewModel(weatherService: weatherService)
-        self.window?.rootViewController = vc
-        self.window?.makeKeyAndVisible()
+        let mainRouter = MainRouter(window: window)
+        mainRouter.setupRootViewController()
     }
 
 //    func sceneDidDisconnect(_ scene: UIScene) {

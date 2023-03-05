@@ -13,6 +13,8 @@ class CityWeatherListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
     var viewModel: CityWeatherListViewModel!
+    var router: CityWeatherRouting!
+
     private var cityWeatherList: [CityWeather] = []
     private var subscribers: [AnyCancellable] = []
     override func viewDidLoad() {
@@ -56,6 +58,8 @@ extension CityWeatherListViewController: UITableViewDataSource {
 }
 
 extension CityWeatherListViewController: UITableViewDelegate {
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        router.showWeatherForecast()
+    }
 }
 
