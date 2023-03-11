@@ -11,15 +11,12 @@ import XCTest
 final class MainRouterTests: XCTestCase {
 
     func testMainRouter() {
+        let composition = RouterComposition()
         let window = UIWindow()
-        let mainRouter = MainRouter(window: window)
-        mainRouter.setupRootViewController()
+        let mainRouter = MainRouter(window: window, routerComposition: composition)
+        mainRouter.setup()
         XCTAssertNotNil(mainRouter.window)
-        XCTAssertNotNil(mainRouter.router)
-        XCTAssertNotNil(mainRouter.viewModel)
-        let navigationController = try! XCTUnwrap(mainRouter.navigationController)
-        XCTAssertNotNil(navigationController.visibleViewController)
-        XCTAssertEqual(navigationController.viewControllers.count, 1)
         XCTAssertNotNil(window.rootViewController)
     }
 }
+

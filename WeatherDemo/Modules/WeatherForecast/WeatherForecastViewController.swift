@@ -9,6 +9,9 @@ import UIKit
 
 class WeatherForecastViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    var viewModel: WeatherForecastViewModel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,4 +29,15 @@ class WeatherForecastViewController: UIViewController {
     }
     */
 
+}
+
+extension WeatherForecastViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        UITableViewCell()
+    }
 }

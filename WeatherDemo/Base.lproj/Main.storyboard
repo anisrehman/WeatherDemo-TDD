@@ -49,13 +49,31 @@
                     <view key="view" contentMode="scaleToFill" id="2hj-Zq-k5A">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="uMz-SL-TMl">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BbJ-b5-0PQ" id="alp-4y-A5Z"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="BE3-Eo-FPJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="uMz-SL-TMl" firstAttribute="top" secondItem="BE3-Eo-FPJ" secondAttribute="top" id="MEa-Ho-afU"/>
+                            <constraint firstItem="uMz-SL-TMl" firstAttribute="bottom" secondItem="BE3-Eo-FPJ" secondAttribute="bottom" id="Pf2-gl-21L"/>
+                            <constraint firstItem="uMz-SL-TMl" firstAttribute="leading" secondItem="BE3-Eo-FPJ" secondAttribute="leading" id="ivC-tb-utP"/>
+                            <constraint firstItem="BE3-Eo-FPJ" firstAttribute="trailing" secondItem="uMz-SL-TMl" secondAttribute="trailing" id="xcd-7o-NAS"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="uMz-SL-TMl" id="BcA-Ks-Lmh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vig-tg-0aC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1031" y="-34"/>
+            <point key="canvasLocation" x="1029.7709923664122" y="-34.507042253521128"/>
         </scene>
     </scenes>
     <resources>

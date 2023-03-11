@@ -25,7 +25,7 @@ final class CityWeatherListViewControllerTests: XCTestCase {
 
         let weatherService = MockWeatherService(cityWeathers: cityWeatherList)
         viewController.viewModel = CityWeatherListViewModel(weatherService: weatherService)
-        viewController.router = CityWeatherRouter(navigationController: UINavigationController())
+        viewController.router = CityWeatherRouter(navigationController: UINavigationController(), routerComposition: RouterComposition())
         viewController.loadViewIfNeeded()
         XCTAssertNotNil(viewController.tableView)
         let dataSource = try XCTUnwrap(viewController.tableView.dataSource)
@@ -52,6 +52,7 @@ final class CityWeatherListViewControllerTests: XCTestCase {
         XCTAssertNotNil(viewController.router.navigationController)
         //VC count has been increased
         XCTAssertEqual(viewController.router.navigationController.viewControllers.count, vcCount + 1)
+        XCTAssertNotNil(viewController.router)
 
     }
 
