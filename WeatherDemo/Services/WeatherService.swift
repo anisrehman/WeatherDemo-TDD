@@ -108,3 +108,29 @@ struct WeatherResponse: Decodable {
         let icon: String
     }
 }
+
+//MARK: - WeatherResponse
+struct ForecastResponse: Decodable {
+    let cod: String
+    let list: [Forecast]
+
+    struct Main: Decodable {
+        let temp: Double
+        let temp_min: Double
+        let temp_max: Double
+    }
+
+    struct Weather: Decodable {
+        let id: Int
+        let main: String
+        let description: String
+        let icon: String
+    }
+
+    struct Forecast: Decodable {
+        let dt: Int
+        let dt_txt: String
+        let main: Main
+        let weather: [Weather]?
+    }
+}

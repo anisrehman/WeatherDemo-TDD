@@ -18,4 +18,13 @@ class RouterComposition {
         viewController.router = CityWeatherRouter(navigationController: navigationController, routerComposition: self)
         return viewController
     }
+
+    func getWeatherForecastViewController() -> WeatherForecastViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "WeatherForecastViewController") as! WeatherForecastViewController
+        let weatherService = WeatherService(client: APIClient())
+        let viewModel = WeatherForecastViewModel()
+        viewController.viewModel = viewModel
+        return viewController
+    }
 }

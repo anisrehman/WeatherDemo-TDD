@@ -48,6 +48,7 @@ struct APIClient: APIClientProtocol {
                 throw error
             }
         } catch {
+            debugPrint(error.localizedDescription)
             throw APIError(code: -1, message: error.localizedDescription)
         }
     }

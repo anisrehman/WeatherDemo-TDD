@@ -23,8 +23,7 @@ class CityWeatherRouter: CityWeatherRouting {
     }
 
     func showWeatherForecast() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "WeatherForecastViewController") as! WeatherForecastViewController
+        let viewController = routerComposition.getWeatherForecastViewController()
         navigationController.pushViewController(viewController, animated: true)
     }
 }
