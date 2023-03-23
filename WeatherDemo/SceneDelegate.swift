@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: scene)
         self.window = window
-        let routerComposition = RouterComposition()
+        let routerComposition = CityWeatherListRouterComposition()
         let mainRouter = MainRouter(window: window, routerComposition: routerComposition)
         mainRouter.setup()
     }

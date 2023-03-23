@@ -10,14 +10,14 @@ import UIKit
 
 protocol CityWeatherRouting {
     var navigationController: UINavigationController { get }
-    var routerComposition: RouterComposition { get }
+    var routerComposition: WeatherForecastRouterComposing { get }
     func showWeatherForecast()
 }
 
 class CityWeatherRouter: CityWeatherRouting {
     var navigationController: UINavigationController
-    var routerComposition: RouterComposition
-    init(navigationController: UINavigationController, routerComposition: RouterComposition) {
+    var routerComposition: WeatherForecastRouterComposing
+    init(navigationController: UINavigationController, routerComposition: WeatherForecastRouterComposing) {
         self.navigationController = navigationController
         self.routerComposition = routerComposition
     }

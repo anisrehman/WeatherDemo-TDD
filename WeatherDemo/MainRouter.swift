@@ -10,15 +10,15 @@ import UIKit
 
 protocol MainRouting {
     var window: UIWindow { get }
-    var routerComposition: RouterComposition { get }
+    var routerComposition: CityWeatherListRouterComposing { get }
     func setup()
 }
 
 class MainRouter {
     var window: UIWindow
-    var routerComposition: RouterComposition
+    var routerComposition: CityWeatherListRouterComposing
 
-    init(window: UIWindow, routerComposition: RouterComposition) {
+    init(window: UIWindow, routerComposition: CityWeatherListRouterComposing) {
         self.window = window
         self.routerComposition = routerComposition
     }

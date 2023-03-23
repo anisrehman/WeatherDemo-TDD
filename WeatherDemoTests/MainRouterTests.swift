@@ -11,7 +11,7 @@ import XCTest
 final class MainRouterTests: XCTestCase {
 
     func testMainRouter() {
-        let composition = RouterComposition()
+        let composition = CityWeatherListRouterComposition()
         let window = UIWindow()
         let mainRouter = MainRouter(window: window, routerComposition: composition)
         mainRouter.setup()

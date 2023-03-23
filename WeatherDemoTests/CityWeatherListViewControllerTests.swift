@@ -25,7 +25,7 @@ final class CityWeatherListViewControllerTests: XCTestCase {
 
         let weatherService = MockWeatherService(cityWeathers: cityWeatherList)
         viewController.viewModel = CityWeatherListViewModel(weatherService: weatherService)
-        viewController.router = CityWeatherRouter(navigationController: UINavigationController(), routerComposition: RouterComposition())
+        viewController.router = CityWeatherRouter(navigationController: UINavigationController(), routerComposition: WeatherForecastRouterComposition())
         viewController.loadViewIfNeeded()
         XCTAssertNotNil(viewController.tableView)
         let dataSource = try XCTUnwrap(viewController.tableView.dataSource)
