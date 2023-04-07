@@ -19,15 +19,19 @@ final class CityWeatherListViewControllerTests: XCTestCase {
 
         let weatherService = MockWeatherService(cityWeathers: cityWeatherList)
         let factory = ViewControllerFactory(weatherService: weatherService)
-        let viewController = factory.getCityWeatherViewController { cityName in
-            debugPrint(cityName)
-        }
+        let mainRouter = MainRouter(window: UIWindow(), factory: factory)
+        mainRouter.setup()
+        // We know WeatherForecastViewController is set to root
+        let navigationController = try XCTUnwrap(mainRouter.navigationController)
+        let viewControllers = navigationController.viewControllers
+        XCTAssertGreaterThan(viewControllers.count, 0)
+        let rootViewController = viewControllers[0] as? CityWeatherListViewController
+        let viewController = try XCTUnwrap(rootViewController)
         viewController.loadViewIfNeeded()
-
         XCTAssertNotNil(viewController.tableView)
         let dataSource = try XCTUnwrap(viewController.tableView.dataSource)
 
-        let expect = expectation(description: "")
+        var expect = expectation(description: "")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) { //Wait for 2 seconds to complete loading
             let rowCount = dataSource.tableView(viewController.tableView, numberOfRowsInSection: 0)
             XCTAssertEqual(cityWeatherList.count, rowCount)
@@ -43,18 +47,21 @@ final class CityWeatherListViewControllerTests: XCTestCase {
         wait(for: [expect], timeout: 3)
 
         // Select a cell.
+        expect = expectation(description: "")
         let delegate = try XCTUnwrap(viewController.tableView.delegate)
         delegate.tableView?(viewController.tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { //Wait for 2 seconds to push view controller
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 3)
+        XCTAssertEqual(navigationController.viewControllers.count, 2)
     }
 
     func test_CityWeatherListViewController_Returns_Nil() throws {
 
         let weatherService = MockWeatherService(cityWeathers: nil)
         let factory = ViewControllerFactory(weatherService: weatherService)
-        let viewController = factory.getCityWeatherViewController { cityName in
-            debugPrint(cityName)
-        }
-        viewController.viewModel = CityWeatherListViewModel(weatherService: weatherService)
+        let viewController = factory.getCityWeatherViewController { _ in }
         viewController.loadViewIfNeeded()
 
         XCTAssertNotNil(viewController.tableView)
