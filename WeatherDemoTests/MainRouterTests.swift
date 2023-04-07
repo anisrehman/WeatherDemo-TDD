@@ -11,9 +11,9 @@ import XCTest
 final class MainRouterTests: XCTestCase {
 
     func testMainRouter() {
-        let composition = CityWeatherListRouterComposition()
+        let factory = ViewControllerFactory(weatherService: WeatherService(client: APIClient()))
         let window = UIWindow()
-        let mainRouter = MainRouter(window: window, routerComposition: composition)
+        let mainRouter = MainRouter(window: window, factory: factory)
         mainRouter.setup()
         XCTAssertNotNil(mainRouter.window)
         XCTAssertNotNil(window.rootViewController)

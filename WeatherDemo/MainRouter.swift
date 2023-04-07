@@ -10,23 +10,28 @@ import UIKit
 
 protocol MainRouting {
     var window: UIWindow { get }
-    var routerComposition: CityWeatherListRouterComposing { get }
+    var factory: ViewControllerFactoryProtocol { get }
+    var navigationController: UINavigationController? { get }
     func setup()
 }
 
 class MainRouter {
     var window: UIWindow
-    var routerComposition: CityWeatherListRouterComposing
+    var factory: ViewControllerFactoryProtocol
+    var navigationController: UINavigationController?
 
-    init(window: UIWindow, routerComposition: CityWeatherListRouterComposing) {
+    init(window: UIWindow, factory: ViewControllerFactoryProtocol) {
         self.window = window
-        self.routerComposition = routerComposition
+        self.factory = factory
     }
 
     func setup() {
-        let navigationController = UINavigationController()
-        let viewController = routerComposition.getCityWeatherViewController(navigationController: navigationController)
-        navigationController.pushViewController(viewController, animated: false)
+        navigationController = UINavigationController()
+        let viewController = factory.getCityWeatherViewController { [weak self] city in
+            let viewController = self?.factory.getWeatherForecastViewController()
+            self?.navigationController?.pushViewController(viewController!, animated: true)
+        }
+        navigationController?.pushViewController(viewController, animated: false)
         self.window.rootViewController = navigationController
         self.window.makeKeyAndVisible()
     }

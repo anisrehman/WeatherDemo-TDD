@@ -9,17 +9,13 @@ import XCTest
 @testable import WeatherDemo
 
 final class WeatherForecastViewControllerTests: XCTestCase {
-    var viewController: WeatherForecastViewController!
-    override func setUpWithError() throws {
-
-    }
 
     func testWeatherForecastViewController() {
-        let viewController = MockedRouterComposition().getWeatherForecastViewController()
+        let viewController = ViewControllerFactory(weatherService: WeatherService(client: APIClient())).getWeatherForecastViewController()
         XCTAssertNotNil(viewController.viewModel)
         viewController.loadViewIfNeeded()
         let dataSource = try! XCTUnwrap(viewController.tableView.dataSource)
-        let viewModel = try! XCTAssertNotNil(viewController.viewModel)
+        let viewModel = try! XCTUnwrap(viewController.viewModel)
 
         let count = dataSource.tableView(viewController.tableView, numberOfRowsInSection: 0)
         XCTAssertEqual(count, 1)
@@ -27,17 +23,4 @@ final class WeatherForecastViewControllerTests: XCTestCase {
         let cell = dataSource.tableView(viewController.tableView, cellForRowAt: IndexPath(row: 0, section: 0))
         XCTAssertNotNil(cell)
     }
-}
-
-class MockedRouterComposition: WeatherForecastRouterComposing {
-    func getWeatherForecastViewController() -> WeatherForecastViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "WeatherForecastViewController") as! WeatherForecastViewController
-        let weatherService = WeatherService(client: APIClient())
-        let viewModel = WeatherForecastViewModel()
-        viewController.viewModel = viewModel
-        return viewController
-    }
-
-    
 }

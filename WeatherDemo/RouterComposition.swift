@@ -8,32 +8,33 @@
 import Foundation
 import UIKit
 
-protocol CityWeatherListRouterComposing {
-    func getCityWeatherViewController(navigationController: UINavigationController) -> CityWeatherListViewController
-}
-
-protocol WeatherForecastRouterComposing {
+protocol ViewControllerFactoryProtocol {
+    var weatherService: WeatherServiceProtocol { get }
+    init(weatherService: WeatherServiceProtocol)
+    func getCityWeatherViewController(citySelected: @escaping ((String) -> Void)) -> CityWeatherListViewController
     func getWeatherForecastViewController() -> WeatherForecastViewController
 }
 
-class CityWeatherListRouterComposition: CityWeatherListRouterComposing {
-    func getCityWeatherViewController(navigationController: UINavigationController) -> CityWeatherListViewController {
+class ViewControllerFactory: ViewControllerFactoryProtocol {
+    var weatherService: WeatherServiceProtocol
+    required init(weatherService: WeatherServiceProtocol) {
+        self.weatherService = weatherService
+    }
+
+    func getCityWeatherViewController(citySelected: @escaping ((String) -> Void)) -> CityWeatherListViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: "CityWeatherListViewController") as! CityWeatherListViewController
-        let weatherService = WeatherService(client: APIClient())
         let viewModel = CityWeatherListViewModel(weatherService: weatherService)
         viewController.viewModel = viewModel
-        viewController.router = CityWeatherRouter(navigationController: navigationController, routerComposition: WeatherForecastRouterComposition())
+        viewController.didSelectCity = citySelected
         return viewController
     }
-}
 
-class WeatherForecastRouterComposition: WeatherForecastRouterComposing {
     func getWeatherForecastViewController() -> WeatherForecastViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: "WeatherForecastViewController") as! WeatherForecastViewController
-        let weatherService = WeatherService(client: APIClient())
-        let viewModel = WeatherForecastViewModel()
+        let weatherService = weatherService
+        let viewModel = WeatherForecastViewModel(weatherService: weatherService)
         viewController.viewModel = viewModel
         return viewController
     }

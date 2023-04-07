@@ -10,4 +10,8 @@ import Combine
 
 class WeatherForecastViewModel {
     @Published var forecasts: [CityWeather] = []
+    let weatherService: WeatherServiceProtocol
+    init(weatherService: WeatherServiceProtocol) {
+        self.weatherService = weatherService
+    }
 }
