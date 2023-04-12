@@ -37,7 +37,6 @@ final class WeatherServiceTests: XCTestCase {
     }
 
     func test_Get_City_Forecast_Success() async throws {
-        let coord = WeatherResponse.Coord(lat: 30.1956, lon: 71.4753)
         let main = WeatherBaseResponse.Main(temp: 297.09, temp_min: 297.09, temp_max: 297.09)
         let weather = WeatherBaseResponse.Weather(id: 0, main: "", description: "", icon: "")
         let response = ForecastResponse(cod: "", list: [ForecastResponse.Forecast(dt: 0, dt_txt: "2023-04-12", main: main, weather: [weather])])
@@ -46,6 +45,20 @@ final class WeatherServiceTests: XCTestCase {
         XCTAssertEqual(weatherForecastList.count, 1)
         let forecast = weatherForecastList[0]
         XCTAssertEqual(forecast.date, "2023-04-12")
+    }
+
+    func test_Get_City_Forecast_Missing_Data() async throws {
+        let response = ForecastResponse(cod: "", list: [])
+        let service = WeatherService(client: MockForecastAPIClient(returnsSuccess: true, response: response))
+        let cityWeatherList = await service.getWeatherForecast(cityName: "Multan")
+        XCTAssertEqual(cityWeatherList.count, 0)
+    }
+
+    func test_Get_City_Forecast_Failed() async throws {
+        let response = ForecastResponse(cod: "", list: [])
+        let service = WeatherService(client: MockForecastAPIClient(returnsSuccess: false, response: response))
+        let cityWeatherList = await service.getWeatherForecast(cityName: "Multan")
+        XCTAssertEqual(cityWeatherList.count, 0)
     }
 }
 

@@ -52,7 +52,9 @@ class WeatherService: WeatherServiceProtocol {
                 return []
             }
             let weatherForecasts = list.map { forecastResponse in
-                WeatherForecast(temp: forecastResponse.main.temp, minTemp: forecastResponse.main.temp_min, maxTemp: forecastResponse.main.temp_max, iconURL: forecastResponse.weather?[0].icon ?? "", date: forecastResponse.dt_txt)
+                let icon = forecastResponse.weather?[0].icon ?? ""
+                let iconURL = "\(iconBaseURL)\(icon)@2x.png"
+                return WeatherForecast(temp: forecastResponse.main.temp, minTemp: forecastResponse.main.temp_min, maxTemp: forecastResponse.main.temp_max, iconURL: iconURL, date: forecastResponse.dt_txt)
             }
             
             return weatherForecasts
@@ -81,7 +83,6 @@ extension WeatherService {
                 return nil
             }
             let iconURL = "\(iconBaseURL)\(weather.icon)@2x.png"
-            debugPrint(iconURL)
             let cityWeather = CityWeather(city: name, lat: coord.lat, lon: coord.lon, temp: main.temp, minTemp: main.temp_min, maxTemp: main.temp_max, iconURL: iconURL)
             return cityWeather
         } catch {
