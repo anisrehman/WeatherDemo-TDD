@@ -9,6 +9,7 @@ import Foundation
 
 protocol WeatherServiceProtocol {
     func getWeather(cityNameList: [String]) async -> [CityWeather]
+    func getWeatherForecast(cityName: String) async -> [WeatherForecast]
 }
 
 class WeatherService: WeatherServiceProtocol {
@@ -36,6 +37,28 @@ class WeatherService: WeatherServiceProtocol {
             print("execution time\(Date.now.distance(to: startTime))")
             return weathers
         })
+    }
+
+    func getWeatherForecast(cityName: String) async -> [WeatherForecast] {
+        let parameters = [Constant.APIParameter.query: cityName, Constant.APIParameter.appID: Constant.apiKey]
+        let urlComponents = URLComponents(string: Constant.getForecastURL, parameters: parameters)
+        let url = urlComponents.url!
+        let request = URLRequest(url: url)
+
+        do {
+            let forecastResponse: ForecastResponse? = try await apiClient.sendRequest(request, with: URLSession.shared)
+
+            guard let list = forecastResponse?.list, list.count > 0 else {
+                return []
+            }
+            let weatherForecasts = list.map { forecastResponse in
+                WeatherForecast(temp: forecastResponse.main.temp, minTemp: forecastResponse.main.temp_min, maxTemp: forecastResponse.main.temp_max, iconURL: forecastResponse.weather?[0].icon ?? "", date: forecastResponse.dt_txt)
+            }
+            
+            return weatherForecasts
+        } catch {
+            return []
+        }
     }
 }
 
@@ -81,20 +104,8 @@ extension URLComponents {
     }
 }
 
-//MARK: - WeatherResponse
-struct WeatherResponse: Decodable {
-    let name: String?
-    let cod: Int
-    let coord: Coord?
-    let main: Main?
-    let weather: [Weather]?
-    let message: String?
-
-    struct Coord: Decodable {
-        let lat: Double
-        let lon: Double
-    }
-
+//MARK: - WeatherBaseResponse
+struct WeatherBaseResponse {
     struct Main: Decodable {
         let temp: Double
         let temp_min: Double
@@ -108,29 +119,30 @@ struct WeatherResponse: Decodable {
         let icon: String
     }
 }
-
 //MARK: - WeatherResponse
+struct WeatherResponse: Decodable {
+    let name: String?
+    let cod: Int
+    let coord: Coord?
+    let main: WeatherBaseResponse.Main?
+    let weather: [WeatherBaseResponse.Weather]?
+    let message: String?
+
+    struct Coord: Decodable {
+        let lat: Double
+        let lon: Double
+    }
+}
+
+//MARK: - ForecastResponse
 struct ForecastResponse: Decodable {
     let cod: String
     let list: [Forecast]
 
-    struct Main: Decodable {
-        let temp: Double
-        let temp_min: Double
-        let temp_max: Double
-    }
-
-    struct Weather: Decodable {
-        let id: Int
-        let main: String
-        let description: String
-        let icon: String
-    }
-
     struct Forecast: Decodable {
         let dt: Int
         let dt_txt: String
-        let main: Main
-        let weather: [Weather]?
+        let main: WeatherBaseResponse.Main
+        let weather: [WeatherBaseResponse.Weather]?
     }
 }

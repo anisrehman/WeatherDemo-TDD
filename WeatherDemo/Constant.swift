@@ -11,6 +11,7 @@ struct Constant {
     static let apiKey = "41e27a0de3ccbda5d8da10a585959685"
     static let apiBaseURL = "https://api.openweathermap.org/data/2.5"
     static let getCityWeatherURL = apiBaseURL + "/weather"
+    static let getForecastURL = apiBaseURL + "/forecast"
     static let kelvinOffset = 273.15
     struct APIParameter {
         static let appID = "appid"
