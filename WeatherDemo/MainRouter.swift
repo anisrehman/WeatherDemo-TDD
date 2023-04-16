@@ -28,7 +28,7 @@ class MainRouter {
     func setup() {
         navigationController = UINavigationController()
         let viewController = factory.getCityWeatherViewController { [weak self] city in
-            let viewController = self?.factory.getWeatherForecastViewController()
+            let viewController = self?.factory.getWeatherForecastViewController(city: city)
             self?.navigationController?.pushViewController(viewController!, animated: true)
         }
         navigationController?.pushViewController(viewController, animated: false)

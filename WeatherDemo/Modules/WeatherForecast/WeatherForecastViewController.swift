@@ -6,38 +6,53 @@
 //
 
 import UIKit
+import Combine
 
 class WeatherForecastViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     var viewModel: WeatherForecastViewModel!
-    
+
+    private var subscribers: [AnyCancellable] = []
+
+    private var forecasts: [WeatherForecast] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setupUI()
+        bindViews()
+        
+        viewModel.fetchWeatherForecast()
     }
-    
+}
 
-    /*
-    // MARK: - Navigation
+extension WeatherForecastViewController {
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setupUI() {
+        tableView.register(UINib(nibName: "WeatherForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "WeatherForecastTableViewCell")
     }
-    */
 
+    private func bindViews() {
+        viewModel.$forecasts.sink { forecasts in
+            DispatchQueue.main.async { [weak self] in
+                self?.forecasts = forecasts
+                self?.tableView.reloadData()
+            }
+        }.store(in: &subscribers)
+    }
 }
 
 extension WeatherForecastViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        forecasts.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherForecastTableViewCell", for: indexPath) as! WeatherForecastTableViewCell
+        cell.configure(forecast: forecasts[indexPath.row])
+        return cell
     }
 }

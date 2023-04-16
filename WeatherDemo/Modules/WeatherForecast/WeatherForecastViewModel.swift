@@ -9,9 +9,19 @@ import Foundation
 import Combine
 
 class WeatherForecastViewModel {
-    @Published var forecasts: [CityWeather] = []
     let weatherService: WeatherServiceProtocol
-    init(weatherService: WeatherServiceProtocol) {
+    let city: String
+
+    @Published var forecasts: [WeatherForecast] = []
+
+    init(weatherService: WeatherServiceProtocol, city: String) {
         self.weatherService = weatherService
+        self.city = city
+    }
+
+    func fetchWeatherForecast() {
+        Task {
+            forecasts = await weatherService.getWeatherForecast(cityName: city)
+        }
     }
 }

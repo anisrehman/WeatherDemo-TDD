@@ -12,7 +12,7 @@ protocol ViewControllerFactoryProtocol {
     var weatherService: WeatherServiceProtocol { get }
     init(weatherService: WeatherServiceProtocol)
     func getCityWeatherViewController(citySelected: @escaping ((String) -> Void)) -> CityWeatherListViewController
-    func getWeatherForecastViewController() -> WeatherForecastViewController
+    func getWeatherForecastViewController(city: String) -> WeatherForecastViewController
 }
 
 class ViewControllerFactory: ViewControllerFactoryProtocol {
@@ -30,11 +30,11 @@ class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
 
-    func getWeatherForecastViewController() -> WeatherForecastViewController {
+    func getWeatherForecastViewController(city: String) -> WeatherForecastViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: "WeatherForecastViewController") as! WeatherForecastViewController
         let weatherService = weatherService
-        let viewModel = WeatherForecastViewModel(weatherService: weatherService)
+        let viewModel = WeatherForecastViewModel(weatherService: weatherService, city: city)
         viewController.viewModel = viewModel
         return viewController
     }
