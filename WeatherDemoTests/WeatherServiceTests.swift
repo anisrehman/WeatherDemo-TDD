@@ -9,13 +9,9 @@ import XCTest
 @testable import WeatherDemo
 
 final class WeatherServiceTests: XCTestCase {
-
-    func test_Fetch_City_Weather_Success() async throws {
-        let coord = WeatherResponse.Coord(lat: 30.1956, lon: 71.4753)
-        let main = WeatherBaseResponse.Main(temp: 297.09, temp_min: 297.09, temp_max: 297.09)
-        let weather = WeatherBaseResponse.Weather(id: 0, main: "", description: "", icon: "")
-        let response = WeatherResponse(name: "Multan", cod: 200, coord: coord, main: main, weather: [weather], message: nil)
-        let service = WeatherService(client: MockAPIClient(returnsSuccess: true, response: response))
+        func test_Fetch_City_Weather_Success() async throws {
+        let urlSession = MockURLSession(throwError: false, statusCode: 200, responseString: cityWeatherSuccessResponse)
+        let service = WeatherService(client: APIClient(urlSession: urlSession))
         let cityWeatherList = await service.getWeather(cityNameList: ["Multan"])
         XCTAssertEqual(cityWeatherList.count, 1)
         let weather1 = cityWeatherList[0]
@@ -23,59 +19,39 @@ final class WeatherServiceTests: XCTestCase {
     }
 
     func test_Fetch_City_Weather_Failed() async throws {
-        let response = WeatherResponse(name: "Multan", cod: 200, coord: nil, main: nil, weather: nil, message: nil)
-        let service = WeatherService(client: MockAPIClient(returnsSuccess: false, response: response))
+        let urlSession = MockURLSession(throwError: true, statusCode: 200, responseString: "")
+        let service = WeatherService(client: APIClient(urlSession: urlSession))
         let cityWeatherList = await service.getWeather(cityNameList: ["Multan"])
         XCTAssertEqual(cityWeatherList.count, 0)
     }
 
-    func test_Fetch_City_Weather_Missing_Data() async throws {
-        let response = WeatherResponse(name: "Multan", cod: 200, coord: nil, main: nil, weather: nil, message: nil)
-        let service = WeatherService(client: MockAPIClient(returnsSuccess: true, response: response))
+    func test_Fetch_City_Weather_Invalid_City() async throws {
+        let urlSession = MockURLSession(throwError: false, statusCode: 200, responseString: invalidCityWeatherResponse)
+        let service = WeatherService(client: APIClient(urlSession: urlSession))
         let cityWeatherList = await service.getWeather(cityNameList: ["Multan"])
         XCTAssertEqual(cityWeatherList.count, 0)
     }
 
     func test_Get_City_Forecast_Success() async throws {
-        let main = WeatherBaseResponse.Main(temp: 297.09, temp_min: 297.09, temp_max: 297.09)
-        let weather = WeatherBaseResponse.Weather(id: 0, main: "", description: "", icon: "")
-        let response = ForecastResponse(cod: "", list: [ForecastResponse.Forecast(dt: 0, dt_txt: "2023-04-12", main: main, weather: [weather])])
-        let service = WeatherService(client: MockForecastAPIClient(returnsSuccess: true, response: response))
+        let urlSession = MockURLSession(throwError: false, statusCode: 200, responseString: forecastSuccessResponse)
+        let service = WeatherService(client: APIClient(urlSession: urlSession))
         let weatherForecastList = await service.getWeatherForecast(cityName: "Multan")
-        XCTAssertEqual(weatherForecastList.count, 1)
+        XCTAssertGreaterThanOrEqual(weatherForecastList.count, 1)
         let forecast = weatherForecastList[0]
-        XCTAssertEqual(forecast.date, "2023-04-12")
+        XCTAssertEqual(forecast.date, "2023-07-03 09:00:00")
     }
 
     func test_Get_City_Forecast_Missing_Data() async throws {
-        let response = ForecastResponse(cod: "", list: [])
-        let service = WeatherService(client: MockForecastAPIClient(returnsSuccess: true, response: response))
+        let urlSession = MockURLSession(throwError: false, statusCode: 200, responseString: "")
+        let service = WeatherService(client: APIClient(urlSession: urlSession))
         let cityWeatherList = await service.getWeatherForecast(cityName: "Multan")
         XCTAssertEqual(cityWeatherList.count, 0)
     }
 
     func test_Get_City_Forecast_Failed() async throws {
-        let response = ForecastResponse(cod: "", list: [])
-        let service = WeatherService(client: MockForecastAPIClient(returnsSuccess: false, response: response))
+        let urlSession = MockURLSession(throwError: true, statusCode: 200, responseString: "")
+        let service = WeatherService(client: APIClient(urlSession: urlSession))
         let cityWeatherList = await service.getWeatherForecast(cityName: "Multan")
         XCTAssertEqual(cityWeatherList.count, 0)
-    }
-}
-
-struct MockAPIClient: APIClientProtocol {
-    let returnsSuccess: Bool
-    let response: WeatherResponse
-
-    init(returnsSuccess: Bool, response: WeatherResponse) {
-        self.returnsSuccess = returnsSuccess
-        self.response = response
-    }
-
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol) async throws -> T {
-        if returnsSuccess {
-            let weatherResponse = response
-            return weatherResponse as! T
-        }
-        throw APIError(code: -1, message: "Parsing error")
     }
 }

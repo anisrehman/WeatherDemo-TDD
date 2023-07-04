@@ -21,7 +21,8 @@ protocol URLSessionProtocol {
 }
 
 protocol APIClientProtocol {
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol) async throws -> T
+    init(urlSession: URLSessionProtocol)
+    func sendRequest<T: Decodable>(_ request: URLRequest) async throws -> T
 }
 
 extension URLSession: URLSessionProtocol {
@@ -29,7 +30,12 @@ extension URLSession: URLSessionProtocol {
 }
 
 struct APIClient: APIClientProtocol {
-    func sendRequest<T: Decodable>(_ request: URLRequest, with urlSession: URLSessionProtocol) async throws -> T {
+    let urlSession: URLSessionProtocol
+    init(urlSession: URLSessionProtocol) {
+        self.urlSession = urlSession
+    }
+    
+    func sendRequest<T: Decodable>(_ request: URLRequest) async throws -> T {
         do {
             let (data, response) = try await urlSession.data(for: request, delegate: nil)
             let urlResponse = response as! HTTPURLResponse

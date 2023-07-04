@@ -18,12 +18,6 @@ class WeatherForecastTableViewCell: UITableViewCell {
         // Initialization code
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     func configure(forecast: WeatherForecast) {
         timeLabel.text = forecast.date
         tempLabel.text = "\(Int(forecast.temp))°"

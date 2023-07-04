@@ -223,8 +223,8 @@ final class APIClientsTests: XCTestCase {
         """
 
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
-        let client = APIClient()
-        let response: WeatherResponse? = try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession)
+        let client = APIClient(urlSession: mockSession)
+        let response: WeatherResponse? = try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!))
         let main = try! XCTUnwrap(response?.main)
         let weather = try! XCTUnwrap(response?.weather)
         XCTAssertNotNil(response?.coord)
@@ -244,9 +244,9 @@ final class APIClientsTests: XCTestCase {
         """
 
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
-        let client = APIClient()
+        let client = APIClient(urlSession: mockSession)
 
-        let weatherResponse: WeatherResponse? = try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession)
+        let weatherResponse: WeatherResponse? = try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!))
         let response = try! XCTUnwrap(weatherResponse)
         XCTAssertEqual(response.cod, 401)
     }
@@ -254,10 +254,10 @@ final class APIClientsTests: XCTestCase {
     func test_APIClient_Returns_Throw_Connection_Error() async {
         let responseString = ""
         let mockSession = MockURLSession(throwError: true, statusCode: 200, responseString: responseString)
-        let client = APIClient()
+        let client = APIClient(urlSession: mockSession)
 
         do {
-            let _: WeatherResponse? = try await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession)
+            let _: WeatherResponse? = try await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!))
         } catch let error {
             let error = error as? APIError
             XCTAssertNotNil(error)
@@ -269,9 +269,9 @@ final class APIClientsTests: XCTestCase {
     func test_CityWeatherAPI_Returns_Parsing_Error() async {
         let responseString = ""
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: responseString)
-        let client = APIClient()
+        let client = APIClient(urlSession: mockSession)
         do {
-            let _: WeatherResponse? = try await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession)
+            let _: WeatherResponse? = try await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!))
         } catch {
             XCTAssertNotNil(error)
         }
@@ -280,9 +280,9 @@ final class APIClientsTests: XCTestCase {
     func test_CityWeatherAPI_Returns_NotFound_Error() async {
         let responseString = ""
         let mockSession = MockURLSession(throwError: false, statusCode: 400, responseString: responseString)
-        let client = APIClient()
+        let client = APIClient(urlSession: mockSession)
         do {
-            let _: WeatherResponse? = try await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession)
+            let _: WeatherResponse? = try await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!))
         } catch {
             XCTAssertNotNil(error)
         }
@@ -290,8 +290,8 @@ final class APIClientsTests: XCTestCase {
 
     func test_WeatherForecastAPI_Returns_Success_Response() async {
         let mockSession = MockURLSession(throwError: false, statusCode: 200, responseString: forecastResponse)
-        let client = APIClient()
-        let response: ForecastResponse? = try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!), with: mockSession)
+        let client = APIClient(urlSession: mockSession)
+        let response: ForecastResponse? = try? await client.sendRequest(URLRequest(url: URL(string: "https://google.com")!))
         let forecastList = try! XCTUnwrap(response?.list)
         XCTAssertNotNil(response?.cod)
         XCTAssertGreaterThan(forecastList.count, 0)

@@ -11,7 +11,7 @@ import XCTest
 final class MainRouterTests: XCTestCase {
 
     func testMainRouter() {
-        let factory = ViewControllerFactory(weatherService: WeatherService(client: APIClient()))
+        let factory = ViewControllerFactory(weatherService: WeatherService(client: APIClient(urlSession: URLSession.shared)))
         let window = UIWindow()
         let mainRouter = MainRouter(window: window, factory: factory)
         mainRouter.setup()

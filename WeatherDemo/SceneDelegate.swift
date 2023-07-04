@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: scene)
         self.window = window
 
-        let factory = ViewControllerFactory(weatherService: WeatherService(client: APIClient()))
+        let factory = ViewControllerFactory(weatherService: WeatherService(client: APIClient(urlSession: URLSession.shared)))
         mainRouter = MainRouter(window: window, factory: factory)
         mainRouter.setup()
     }

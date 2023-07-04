@@ -9,7 +9,6 @@ import Foundation
 @testable import WeatherDemo
 
 class MockURLSession: URLSessionProtocol {
-
     let throwError: Bool
     let statusCode: Int
     let responseString: String

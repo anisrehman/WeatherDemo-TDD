@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+    {
+      "id" : "DA7941A6-76D7-4CEC-88C7-6455D5B3875B",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:WeatherDemo.xcodeproj",
+      "identifier" : "9133E8AA2937626A00EC0C71",
+      "name" : "WeatherDemo"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WeatherDemo.xcodeproj",
+        "identifier" : "9133E8C02937626B00EC0C71",
+        "name" : "WeatherDemoTests"
+      }
+    }
+  ],
+  "version" : 1
+}

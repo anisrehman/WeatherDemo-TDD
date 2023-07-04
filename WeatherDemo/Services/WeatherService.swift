@@ -46,12 +46,9 @@ class WeatherService: WeatherServiceProtocol {
         let request = URLRequest(url: url)
 
         do {
-            let forecastResponse: ForecastResponse? = try await apiClient.sendRequest(request, with: URLSession.shared)
-
-            guard let list = forecastResponse?.list, list.count > 0 else {
-                return []
-            }
-            let weatherForecasts = list.map { forecastResponse in
+            let forecastResponse: ForecastResponse = try await apiClient.sendRequest(request)
+            
+            let weatherForecasts = forecastResponse.list.map { forecastResponse in
                 let icon = forecastResponse.weather?[0].icon ?? ""
                 let iconURL = "\(iconBaseURL)\(icon)@2x.png"
                 return WeatherForecast(temp: forecastResponse.main.temp, minTemp: forecastResponse.main.temp_min, maxTemp: forecastResponse.main.temp_max, iconURL: iconURL, date: forecastResponse.dt_txt)
@@ -73,13 +70,12 @@ extension WeatherService {
         let request = URLRequest(url: url)
 
         do {
-            let weatherResponse: WeatherResponse? = try await apiClient.sendRequest(request, with: URLSession.shared)
+            let weatherResponse: WeatherResponse = try await apiClient.sendRequest(request)
 
-            guard let weatherResponse = weatherResponse,
-                    let name = weatherResponse.name,
-                    let main = weatherResponse.main,
-                    let coord = weatherResponse.coord,
-                    let weather = weatherResponse.weather?[0] else {
+            guard let name = weatherResponse.name,
+                  let main = weatherResponse.main,
+                  let coord = weatherResponse.coord,
+                  let weather = weatherResponse.weather?[0] else {
                 return nil
             }
             let iconURL = "\(iconBaseURL)\(weather.icon)@2x.png"
@@ -128,7 +124,32 @@ struct WeatherResponse: Decodable {
     let main: WeatherBaseResponse.Main?
     let weather: [WeatherBaseResponse.Weather]?
     let message: String?
-
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case cod
+        case coord
+        case main
+        case weather
+        case message
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try? container.decode(String?.self, forKey: CodingKeys.name)
+        let cod = try? container.decode(Int.self, forKey: CodingKeys.cod)
+        if let cod {
+            self.cod = cod
+        } else {
+            let cod = try container.decode(String.self, forKey: CodingKeys.cod)
+            self.cod = Int(cod)!
+        }
+        self.coord = try? container.decode(Coord?.self, forKey: CodingKeys.coord)
+        self.main = try? container.decode(WeatherBaseResponse.Main?.self, forKey: CodingKeys.main)
+        self.weather = try? container.decode([WeatherBaseResponse.Weather]?.self, forKey: CodingKeys.weather)
+        self.message = try? container.decode(String?.self, forKey: CodingKeys.message)
+    }
+    
     struct Coord: Decodable {
         let lat: Double
         let lon: Double

@@ -77,7 +77,6 @@ class MockWeatherService: WeatherServiceProtocol {
         []
     }
 
-
     private var cityWeatherList: [CityWeather]?
     init(cityWeathers: [CityWeather]?) {
         cityWeatherList  = cityWeathers
