@@ -22,6 +22,16 @@
         "identifier" : "9133E8C02937626B00EC0C71",
         "name" : "WeatherDemoTests"
       }
+    },
+    {
+      "skippedTests" : [
+        "WeatherDemoUITestsLaunchTests"
+      ],
+      "target" : {
+        "containerPath" : "container:WeatherDemo.xcodeproj",
+        "identifier" : "8F7181DE2A552FE0009369A1",
+        "name" : "WeatherDemoUITests"
+      }
     }
   ],
   "version" : 1
