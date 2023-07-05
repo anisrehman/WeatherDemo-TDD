@@ -12,7 +12,7 @@ class WeatherForecastViewModel {
     let weatherService: WeatherServiceProtocol
     let city: String
 
-    @Published var forecasts: [WeatherForecast] = []
+    @Published var forecastGroups: [ForecastGroup] = []
 
     init(weatherService: WeatherServiceProtocol, city: String) {
         self.weatherService = weatherService
@@ -21,7 +21,7 @@ class WeatherForecastViewModel {
 
     func fetchWeatherForecast() {
         Task {
-            forecasts = await weatherService.getWeatherForecast(cityName: city)
+            forecastGroups = await weatherService.getWeatherForcastGroupedByDate(cityName: city)
         }
     }
 }

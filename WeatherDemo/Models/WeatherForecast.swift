@@ -13,5 +13,11 @@ struct WeatherForecast {
     let maxTemp: Double
     let iconURL: String
     let date: String
+    let time: String
 }
+
+extension WeatherForecast: Hashable {
+    
+}
+
 

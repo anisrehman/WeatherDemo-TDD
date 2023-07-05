@@ -9,7 +9,7 @@ import Foundation
 
 protocol WeatherServiceProtocol {
     func getWeather(cityNameList: [String]) async -> [CityWeather]
-    func getWeatherForecast(cityName: String) async -> [WeatherForecast]
+    func getWeatherForcastGroupedByDate(cityName: String) async -> [ForecastGroup]
 }
 
 class WeatherService: WeatherServiceProtocol {
@@ -39,25 +39,25 @@ class WeatherService: WeatherServiceProtocol {
         })
     }
 
-    func getWeatherForecast(cityName: String) async -> [WeatherForecast] {
-        let parameters = [Constant.APIParameter.query: cityName, Constant.APIParameter.appID: Constant.apiKey]
-        let urlComponents = URLComponents(string: Constant.getForecastURL, parameters: parameters)
-        let url = urlComponents.url!
-        let request = URLRequest(url: url)
-
-        do {
-            let forecastResponse: ForecastResponse = try await apiClient.sendRequest(request)
-            
-            let weatherForecasts = forecastResponse.list.map { forecastResponse in
-                let icon = forecastResponse.weather?[0].icon ?? ""
-                let iconURL = "\(iconBaseURL)\(icon)@2x.png"
-                return WeatherForecast(temp: forecastResponse.main.temp, minTemp: forecastResponse.main.temp_min, maxTemp: forecastResponse.main.temp_max, iconURL: iconURL, date: forecastResponse.dt_txt)
+    func getWeatherForcastGroupedByDate(cityName: String) async -> [ForecastGroup] {
+        let forecasts = await getWeatherForecast(cityName: cityName)
+        
+        var groupByDate: [ForecastGroup] = []
+        var index = 0
+        var date = forecasts.count > index ? forecasts[index].date : ""
+        var sameDateForecasts: [WeatherForecast] = []
+        while (index < forecasts.count) {
+            if date == forecasts[index].date {
+                sameDateForecasts.append(forecasts[index])
+            } else {
+                let forecastGroup = ForecastGroup(date: date, forecasts: sameDateForecasts)
+                groupByDate.append(forecastGroup)
+                date = forecasts[index].date
+                sameDateForecasts = []
             }
-            
-            return weatherForecasts
-        } catch {
-            return []
+            index += 1
         }
+        return groupByDate
     }
 }
 
@@ -83,6 +83,36 @@ extension WeatherService {
             return cityWeather
         } catch {
             return nil
+        }
+    }
+    
+    private func getWeatherForecast(cityName: String) async -> [WeatherForecast] {
+        let parameters = [Constant.APIParameter.query: cityName, Constant.APIParameter.appID: Constant.apiKey]
+        let urlComponents = URLComponents(string: Constant.getForecastURL, parameters: parameters)
+        let url = urlComponents.url!
+        let request = URLRequest(url: url)
+
+        do {
+            let forecastResponse: ForecastResponse = try await apiClient.sendRequest(request)
+            
+            let weatherForecasts = forecastResponse.list.map { forecastResponse in
+                let icon = forecastResponse.weather?[0].icon ?? ""
+                let iconURL = "\(iconBaseURL)\(icon)@2x.png"
+                let components = forecastResponse.dt_txt.components(separatedBy: " ")
+                var date = ""
+                var time = ""
+                if components.count > 0 {
+                    date = components[0]
+                }
+                if components.count > 1 {
+                    time = components[1]
+                }
+                return WeatherForecast(temp: forecastResponse.main.temp, minTemp: forecastResponse.main.temp_min, maxTemp: forecastResponse.main.temp_max, iconURL: iconURL, date: date, time: time)
+            }
+            
+            return weatherForecasts
+        } catch {
+            return []
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  RouterComposition.swift
+//  ViewControllerFactory.swift
 //  WeatherDemo
 //
 //  Created by Anis Rehman on 09/03/2023.
@@ -33,6 +33,7 @@ class ViewControllerFactory: ViewControllerFactoryProtocol {
     func getWeatherForecastViewController(city: String) -> WeatherForecastViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: "WeatherForecastViewController") as! WeatherForecastViewController
+        viewController.title = city
         let weatherService = weatherService
         let viewModel = WeatherForecastViewModel(weatherService: weatherService, city: city)
         viewController.viewModel = viewModel

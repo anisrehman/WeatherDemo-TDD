@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8FA6122E2A52CCEB00149552 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6122D2A52CCEB00149552 /* Constants.swift */; };
+		8FEDB6152A542B2500883805 /* ForecastGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEDB6142A542B2500883805 /* ForecastGroup.swift */; };
 		9133E8AF2937626A00EC0C71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133E8AE2937626A00EC0C71 /* AppDelegate.swift */; };
 		9133E8B12937626A00EC0C71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133E8B02937626A00EC0C71 /* SceneDelegate.swift */; };
 		9133E8B32937626A00EC0C71 /* CityWeaherListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133E8B22937626A00EC0C71 /* CityWeaherListViewController.swift */; };
@@ -36,7 +37,7 @@
 		91BF427A29E148E200AF851D /* WeatherForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BF427929E148E200AF851D /* WeatherForecast.swift */; };
 		91D3163929AF9BBC00553618 /* CityWeatherRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D3163829AF9BBC00553618 /* CityWeatherRouter.swift */; };
 		91D92ACA294A091B0024BC77 /* CityWeatherListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D92AC9294A091B0024BC77 /* CityWeatherListViewModel.swift */; };
-		91E3B47B29BA496F007643C8 /* RouterComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E3B47A29BA496F007643C8 /* RouterComposition.swift */; };
+		91E3B47B29BA496F007643C8 /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E3B47A29BA496F007643C8 /* ViewControllerFactory.swift */; };
 		91F59D6A294B208900EA17A0 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F59D69294B208900EA17A0 /* WeatherService.swift */; };
 		91F59D6C294B5B4000EA17A0 /* WeatherServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F59D6B294B5B4000EA17A0 /* WeatherServiceTests.swift */; };
 		91F59D6F294B5C3000EA17A0 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F59D6E294B5C3000EA17A0 /* APIClient.swift */; };
@@ -55,6 +56,7 @@
 /* Begin PBXFileReference section */
 		8FA6122D2A52CCEB00149552 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8FC4895E2A52E096009CE7E0 /* WeatherDemo.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WeatherDemo.xctestplan; sourceTree = "<group>"; };
+		8FEDB6142A542B2500883805 /* ForecastGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastGroup.swift; sourceTree = "<group>"; };
 		9133E8AB2937626A00EC0C71 /* WeatherDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9133E8AE2937626A00EC0C71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9133E8B02937626A00EC0C71 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,7 +88,7 @@
 		91BF427929E148E200AF851D /* WeatherForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecast.swift; sourceTree = "<group>"; };
 		91D3163829AF9BBC00553618 /* CityWeatherRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherRouter.swift; sourceTree = "<group>"; };
 		91D92AC9294A091B0024BC77 /* CityWeatherListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherListViewModel.swift; sourceTree = "<group>"; };
-		91E3B47A29BA496F007643C8 /* RouterComposition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterComposition.swift; sourceTree = "<group>"; };
+		91E3B47A29BA496F007643C8 /* ViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
 		91F59D69294B208900EA17A0 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		91F59D6B294B5B4000EA17A0 /* WeatherServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherServiceTests.swift; sourceTree = "<group>"; };
 		91F59D6E294B5C3000EA17A0 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
@@ -140,7 +142,7 @@
 				9133E8AE2937626A00EC0C71 /* AppDelegate.swift */,
 				9133E8B02937626A00EC0C71 /* SceneDelegate.swift */,
 				914841AC29A5271F006AD580 /* MainRouter.swift */,
-				91E3B47A29BA496F007643C8 /* RouterComposition.swift */,
+				91E3B47A29BA496F007643C8 /* ViewControllerFactory.swift */,
 				91B6DB0B2950C4210063E210 /* Constant.swift */,
 				9133E8B42937626A00EC0C71 /* Main.storyboard */,
 				9133E8B72937626B00EC0C71 /* Assets.xcassets */,
@@ -172,6 +174,7 @@
 			children = (
 				91378B5529459B9000CA8FBC /* CityWeather.swift */,
 				91BF427929E148E200AF851D /* WeatherForecast.swift */,
+				8FEDB6142A542B2500883805 /* ForecastGroup.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 			files = (
 				91AABA0B29EBB68200102DD0 /* WeatherForecastTableViewCell.swift in Sources */,
 				9197BB6F296EC300003098C4 /* UIImageViewExtension.swift in Sources */,
+				8FEDB6152A542B2500883805 /* ForecastGroup.swift in Sources */,
 				914841AD29A5271F006AD580 /* MainRouter.swift in Sources */,
 				9133E8B32937626A00EC0C71 /* CityWeaherListViewController.swift in Sources */,
 				91378B5629459B9000CA8FBC /* CityWeather.swift in Sources */,
@@ -357,7 +361,7 @@
 				91BF427A29E148E200AF851D /* WeatherForecast.swift in Sources */,
 				9151647B299A7BD700F5A7DF /* UIImageViewPublicExtension.swift in Sources */,
 				914841AB29A50887006AD580 /* WeatherForecastViewController.swift in Sources */,
-				91E3B47B29BA496F007643C8 /* RouterComposition.swift in Sources */,
+				91E3B47B29BA496F007643C8 /* ViewControllerFactory.swift in Sources */,
 				91D92ACA294A091B0024BC77 /* CityWeatherListViewModel.swift in Sources */,
 				91757D1029B4622500854EE4 /* WeatherForecastViewModel.swift in Sources */,
 				9133E8B12937626A00EC0C71 /* SceneDelegate.swift in Sources */,

@@ -22,8 +22,12 @@ final class WeatherForecastViewControllerTests: XCTestCase {
 
         var expect = expectation(description: "")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) { //Wait for 2 seconds to complete loading
-            let count = dataSource .tableView(viewController.tableView, numberOfRowsInSection: 0)
-            XCTAssertEqual(count, 40)
+            let sections = dataSource.numberOfSections!(in: viewController.tableView)
+            XCTAssertEqual(sections, 5)
+            var count = dataSource .tableView(viewController.tableView, numberOfRowsInSection: 0)
+            XCTAssertEqual(count, 5)
+            count = dataSource .tableView(viewController.tableView, numberOfRowsInSection: 1)
+            XCTAssertEqual(count, 7)
             let cell = dataSource.tableView(viewController.tableView, cellForRowAt: IndexPath(row: 0, section: 0))
             XCTAssertNotNil(cell)
             expect.fulfill()

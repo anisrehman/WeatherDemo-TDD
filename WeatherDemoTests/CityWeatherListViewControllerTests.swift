@@ -73,7 +73,7 @@ final class CityWeatherListViewControllerTests: XCTestCase {
 }
 
 class MockWeatherService: WeatherServiceProtocol {
-    func getWeatherForecast(cityName: String) async -> [WeatherDemo.WeatherForecast] {
+    func getWeatherForcastGroupedByDate(cityName: String) async -> [ForecastGroup] {
         []
     }
 

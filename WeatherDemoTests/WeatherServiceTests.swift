@@ -31,27 +31,28 @@ final class WeatherServiceTests: XCTestCase {
         let cityWeatherList = await service.getWeather(cityNameList: ["Multan"])
         XCTAssertEqual(cityWeatherList.count, 0)
     }
-
-    func test_Get_City_Forecast_Success() async throws {
+    
+    func test_Get_City_Forecast_Group_By_Date_Success() async throws {
         let urlSession = MockURLSession(throwError: false, statusCode: 200, responseString: forecastSuccessResponse)
         let service = WeatherService(client: APIClient(urlSession: urlSession))
-        let weatherForecastList = await service.getWeatherForecast(cityName: "Multan")
+        let weatherForecastList = await service.getWeatherForcastGroupedByDate(cityName: "Multan")
         XCTAssertGreaterThanOrEqual(weatherForecastList.count, 1)
-        let forecast = weatherForecastList[0]
-        XCTAssertEqual(forecast.date, "2023-07-03 09:00:00")
+        let forecastGroup = weatherForecastList[0]
+        XCTAssertEqual(forecastGroup.date, "2023-07-03")
+        XCTAssertGreaterThan(forecastGroup.forecasts.count, 0)
     }
 
     func test_Get_City_Forecast_Missing_Data() async throws {
         let urlSession = MockURLSession(throwError: false, statusCode: 200, responseString: "")
         let service = WeatherService(client: APIClient(urlSession: urlSession))
-        let cityWeatherList = await service.getWeatherForecast(cityName: "Multan")
-        XCTAssertEqual(cityWeatherList.count, 0)
+        let forecastGroup = await service.getWeatherForcastGroupedByDate(cityName: "Multan")
+        XCTAssertEqual(forecastGroup.count, 0)
     }
 
     func test_Get_City_Forecast_Failed() async throws {
         let urlSession = MockURLSession(throwError: true, statusCode: 200, responseString: "")
         let service = WeatherService(client: APIClient(urlSession: urlSession))
-        let cityWeatherList = await service.getWeatherForecast(cityName: "Multan")
-        XCTAssertEqual(cityWeatherList.count, 0)
+        let forecastGroup = await service.getWeatherForcastGroupedByDate(cityName: "Multan")
+        XCTAssertEqual(forecastGroup.count, 0)
     }
 }

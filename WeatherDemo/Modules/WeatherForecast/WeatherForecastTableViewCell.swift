@@ -19,7 +19,7 @@ class WeatherForecastTableViewCell: UITableViewCell {
     }
 
     func configure(forecast: WeatherForecast) {
-        timeLabel.text = forecast.date
+        timeLabel.text = forecast.time
         tempLabel.text = "\(Int(forecast.temp))°"
         weatherImageView.setImage(from: forecast.iconURL)
         weatherImageView.contentMode = .scaleAspectFill
