@@ -72,14 +72,6 @@ let forecastSuccessResponse = """
                 "humidity": 36,
                 "temp_kf": -4.25
             },
-            "weather": [
-                {
-                    "id": 800,
-                    "main": "Clear",
-                    "description": "clear sky",
-                    "icon": "01d"
-                }
-            ],
             "clouds": {
                 "all": 0
             },
