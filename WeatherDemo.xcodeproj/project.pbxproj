@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		8F7181E22A552FE0009369A1 /* WeatherDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7181E12A552FE0009369A1 /* WeatherDemoUITests.swift */; };
 		8F7181E42A552FE0009369A1 /* WeatherDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7181E32A552FE0009369A1 /* WeatherDemoUITestsLaunchTests.swift */; };
-		8FA6122E2A52CCEB00149552 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6122D2A52CCEB00149552 /* Constants.swift */; };
+		8FA6122E2A52CCEB00149552 /* MockResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6122D2A52CCEB00149552 /* MockResponses.swift */; };
 		8FEDB6152A542B2500883805 /* ForecastGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEDB6142A542B2500883805 /* ForecastGroup.swift */; };
 		9133E8AF2937626A00EC0C71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133E8AE2937626A00EC0C71 /* AppDelegate.swift */; };
 		9133E8B12937626A00EC0C71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133E8B02937626A00EC0C71 /* SceneDelegate.swift */; };
@@ -66,7 +66,7 @@
 		8F7181DF2A552FE0009369A1 /* WeatherDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7181E12A552FE0009369A1 /* WeatherDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDemoUITests.swift; sourceTree = "<group>"; };
 		8F7181E32A552FE0009369A1 /* WeatherDemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		8FA6122D2A52CCEB00149552 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8FA6122D2A52CCEB00149552 /* MockResponses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockResponses.swift; sourceTree = "<group>"; };
 		8FC4895E2A52E096009CE7E0 /* WeatherDemo.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WeatherDemo.xctestplan; sourceTree = "<group>"; };
 		8FEDB6142A542B2500883805 /* ForecastGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastGroup.swift; sourceTree = "<group>"; };
 		9133E8AB2937626A00EC0C71 /* WeatherDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,6 +140,15 @@
 			path = WeatherDemoUITests;
 			sourceTree = "<group>";
 		};
+		8F7181EA2A5586F7009369A1 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				917F046329BD971400097938 /* MockURLSession.swift */,
+				8FA6122D2A52CCEB00149552 /* MockResponses.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		9133E8A22937626A00EC0C71 = {
 			isa = PBXGroup;
 			children = (
@@ -164,6 +173,7 @@
 		9133E8AD2937626A00EC0C71 /* WeatherDemo */ = {
 			isa = PBXGroup;
 			children = (
+				8F7181EA2A5586F7009369A1 /* Mocks */,
 				91378B5429459B6B00CA8FBC /* Models */,
 				91D5B2052946165600E2F93B /* Modules */,
 				91F59D68294B206300EA17A0 /* Services */,
@@ -193,8 +203,6 @@
 				915F6CF9294D97AD00E4588B /* APIClientsTests.swift */,
 				91700FBA29781D8800E0A192 /* UIImageViewTests.swift */,
 				914841A729A507C4006AD580 /* WeatherForecastViewControllerTests.swift */,
-				917F046329BD971400097938 /* MockURLSession.swift */,
-				8FA6122D2A52CCEB00149552 /* Constants.swift */,
 			);
 			path = WeatherDemoTests;
 			sourceTree = "<group>";
@@ -443,7 +451,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FA6122E2A52CCEB00149552 /* Constants.swift in Sources */,
+				8FA6122E2A52CCEB00149552 /* MockResponses.swift in Sources */,
 				91378B5829459C9400CA8FBC /* CityWeatherListViewControllerTests.swift in Sources */,
 				91700FBB29781D8800E0A192 /* UIImageViewTests.swift in Sources */,
 				91378B532945982D00CA8FBC /* CityWeatherTests.swift in Sources */,

@@ -17,7 +17,6 @@ class MockURLSession: URLSessionProtocol {
         self.throwError = throwError
         self.statusCode = statusCode
         self.responseString = responseString
-
     }
 
     func data(for request: URLRequest, delegate: URLSessionTaskDelegate?) async throws -> (Data, URLResponse) {
