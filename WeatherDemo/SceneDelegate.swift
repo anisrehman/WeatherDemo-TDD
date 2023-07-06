@@ -18,7 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: scene)
         self.window = window
-
+        
+        let uiTesting = ProcessInfo.processInfo.arguments.contains("UITesting")
         let factory = ViewControllerFactory(weatherService: WeatherService(client: APIClient(urlSession: URLSession.shared)))
         mainRouter = MainRouter(window: window, factory: factory)
         mainRouter.setup()

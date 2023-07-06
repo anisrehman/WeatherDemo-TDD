@@ -25,6 +25,7 @@ final class WeatherDemoUITests: XCTestCase {
     func testExample() throws {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
+        app.launchArguments.append("UITesting")
         app.launch()
 
         sleep(1) // Let api get called
