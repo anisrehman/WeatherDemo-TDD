@@ -20,7 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         
         let uiTesting = ProcessInfo.processInfo.arguments.contains("UITesting")
-        let factory = ViewControllerFactory(weatherService: WeatherService(client: APIClient(urlSession: URLSession.shared)))
+        
+        let urlSession: URLSessionProtocol = uiTesting ? MockURLSession() : URLSession.shared
+        let factory = ViewControllerFactory(weatherService: WeatherService(client: APIClient(urlSession: urlSession)))
         mainRouter = MainRouter(window: window, factory: factory)
         mainRouter.setup()
     }

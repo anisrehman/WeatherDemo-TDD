@@ -7,52 +7,53 @@
 
 import Foundation
 
-let cityWeatherSuccessResponse = """
-{
-    "coord": {
-        "lon": 71.4753,
-        "lat": 30.1956
-    },
-    "weather": [
-        {
-            "id": 721,
-            "main": "Haze",
-            "description": "haze",
-            "icon": "50d"
-        }
-    ],
-    "base": "stations",
-    "main": {
-        "temp": 312.09,
-        "feels_like": 319.09,
-        "temp_min": 312.09,
-        "temp_max": 312.09,
-        "pressure": 998,
-        "humidity": 44
-    },
-    "visibility": 5000,
-    "wind": {
-        "speed": 6.17,
-        "deg": 270
-    },
-    "clouds": {
-        "all": 0
-    },
-    "dt": 1688368586,
-    "sys": {
-        "type": 1,
-        "id": 7586,
-        "country": "PK",
-        "sunrise": 1688343392,
-        "sunset": 1688393974
-    },
-    "timezone": 18000,
-    "id": 1169825,
-    "name": "Multan",
-    "cod": 200
+func cityWeatherSuccessResponse(for city: String) -> String {
+    return """
+    {
+        "coord": {
+            "lon": 71.4753,
+            "lat": 30.1956
+        },
+        "weather": [
+            {
+                "id": 721,
+                "main": "Haze",
+                "description": "haze",
+                "icon": "50d"
+            }
+        ],
+        "base": "stations",
+        "main": {
+            "temp": 312.09,
+            "feels_like": 319.09,
+            "temp_min": 312.09,
+            "temp_max": 312.09,
+            "pressure": 998,
+            "humidity": 44
+        },
+        "visibility": 5000,
+        "wind": {
+            "speed": 6.17,
+            "deg": 270
+        },
+        "clouds": {
+            "all": 0
+        },
+        "dt": 1688368586,
+        "sys": {
+            "type": 1,
+            "id": 7586,
+            "country": "PK",
+            "sunrise": 1688343392,
+            "sunset": 1688393974
+        },
+        "timezone": 18000,
+        "id": 1169825,
+        "name": "\(city)",
+        "cod": 200
+    }
+    """
 }
-"""
-
 let forecastSuccessResponse = """
 {
     "cod": "200",

@@ -12,7 +12,7 @@ final class APIClientsTests: XCTestCase {
     func test_APIClient_Returns_Success_Response() async {
         let mockSession = MockURLSession(cityWeatherResponse: .success)
         let client = APIClient(urlSession: mockSession)
-        let response: WeatherResponse? = try? await client.sendRequest(URLRequest(url: URL(string: Constant.cityWeatherURL)!))
+        let response: WeatherResponse? = try? await client.sendRequest(URLRequest(url: URL(string: "\(Constant.cityWeatherURL)?q=Multan")!))
         let main = try! XCTUnwrap(response?.main)
         let weather = try! XCTUnwrap(response?.weather)
         XCTAssertNotNil(response?.coord)

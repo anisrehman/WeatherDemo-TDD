@@ -6,7 +6,6 @@
 //
 
 import Foundation
-@testable import WeatherDemo
 
 class MockURLSession: URLSessionProtocol {
     let cityWeatherResponse: MockCityWeatherResponse
@@ -21,10 +20,10 @@ class MockURLSession: URLSessionProtocol {
 
     func data(for request: URLRequest, delegate: URLSessionTaskDelegate?) async throws -> (Data, URLResponse) {
         let urlString = request.url!.absoluteString
-        
+        let city = request.url?.queryParameters?["q"] ?? ""
         var responseString = ""
         if urlString.starts(with: Constant.cityWeatherURL) {
-            responseString = try cityWeatherResponse.getResponse()
+            responseString = try cityWeatherResponse.getResponse(city: city)
         } else if urlString.starts(with: Constant.forecastURL) {
             responseString = try forecastResponse.getResponse()
         } else {
@@ -44,10 +43,10 @@ enum MockCityWeatherResponse {
     case invalidCity
     case fail
     
-    func getResponse() throws -> String {
+    func getResponse(city: String) throws -> String {
         switch self {
         case .success:
-            return cityWeatherSuccessResponse
+            return cityWeatherSuccessResponse(for: city)
         case .successMissingData:
             return ""
         case .invalidCity:
