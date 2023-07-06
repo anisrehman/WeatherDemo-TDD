@@ -152,7 +152,6 @@
 		9133E8A22937626A00EC0C71 = {
 			isa = PBXGroup;
 			children = (
-				8FC4895E2A52E096009CE7E0 /* WeatherDemo.xctestplan */,
 				9133E8AD2937626A00EC0C71 /* WeatherDemo */,
 				9133E8C42937626B00EC0C71 /* WeatherDemoTests */,
 				8F7181E02A552FE0009369A1 /* WeatherDemoUITests */,
@@ -188,6 +187,7 @@
 				9133E8B72937626B00EC0C71 /* Assets.xcassets */,
 				9133E8B92937626B00EC0C71 /* LaunchScreen.storyboard */,
 				9133E8BC2937626B00EC0C71 /* Info.plist */,
+				8FC4895E2A52E096009CE7E0 /* WeatherDemo.xctestplan */,
 			);
 			path = WeatherDemo;
 			sourceTree = "<group>";

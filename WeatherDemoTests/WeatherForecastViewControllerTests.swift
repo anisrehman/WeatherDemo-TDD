@@ -12,7 +12,7 @@ final class WeatherForecastViewControllerTests: XCTestCase {
 
     func testWeatherForecastViewController() {
         // Setup mock response
-        let urlSession = MockURLSession(throwError: false, statusCode: 200, responseString: forecastSuccessResponse)
+        let urlSession = MockURLSession(cityWeatherResponse: .success, statusCode: 200)
         let client = APIClient(urlSession: urlSession)
         let viewController = ViewControllerFactory(weatherService: WeatherService(client: client)).getWeatherForecastViewController(city: "Multan")
         XCTAssertNotNil(viewController.viewModel)

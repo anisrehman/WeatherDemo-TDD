@@ -9,23 +9,68 @@ import Foundation
 @testable import WeatherDemo
 
 class MockURLSession: URLSessionProtocol {
-    let throwError: Bool
+    let cityWeatherResponse: MockCityWeatherResponse
+    let forecastResponse: MockForecastResponse
     let statusCode: Int
-    let responseString: String
 
-    init(throwError: Bool, statusCode: Int, responseString: String) {
-        self.throwError = throwError
+    init(cityWeatherResponse: MockCityWeatherResponse = .success, forecastResponse: MockForecastResponse = .success, statusCode: Int = 200) {
+        self.cityWeatherResponse = cityWeatherResponse
+        self.forecastResponse = forecastResponse
         self.statusCode = statusCode
-        self.responseString = responseString
     }
 
     func data(for request: URLRequest, delegate: URLSessionTaskDelegate?) async throws -> (Data, URLResponse) {
-        if throwError {
+        let urlString = request.url!.absoluteString
+        
+        var responseString = ""
+        if urlString.starts(with: Constant.cityWeatherURL) {
+            responseString = try cityWeatherResponse.getResponse()
+        } else if urlString.starts(with: Constant.forecastURL) {
+            responseString = try forecastResponse.getResponse()
+        } else {
             throw NSError(domain: "connection error", code: -1)
-        }
+        }            
+        
         let data = responseString.data(using: .utf8)
-        let response = HTTPURLResponse(url: URL(string: "https://google.com")!, statusCode: self.statusCode, httpVersion: nil, headerFields: nil)
+        let response = HTTPURLResponse(url: request.url!, statusCode: self.statusCode, httpVersion: nil, headerFields: nil)
 
         return (data!, response!)
+    }
+}
+
+enum MockCityWeatherResponse {
+    case success
+    case successMissingData
+    case invalidCity
+    case fail
+    
+    func getResponse() throws -> String {
+        switch self {
+        case .success:
+            return cityWeatherSuccessResponse
+        case .successMissingData:
+            return ""
+        case .invalidCity:
+            return invalidCityWeatherResponse
+        case .fail:
+            throw NSError(domain: "connection error", code: -1)
+        }
+    }
+}
+
+enum MockForecastResponse {
+    case success
+    case successMissingData
+    case fail
+    
+    func getResponse() throws -> String {
+        switch self {
+        case .success:
+            return forecastSuccessResponse
+        case .successMissingData:
+            return ""
+        case .fail:
+            throw NSError(domain: "connection error", code: -1)
+        }
     }
 }

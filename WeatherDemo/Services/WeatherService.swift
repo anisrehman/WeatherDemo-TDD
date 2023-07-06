@@ -65,7 +65,7 @@ class WeatherService: WeatherServiceProtocol {
 extension WeatherService {
     private func getWeather(cityName: String) async -> CityWeather? {
         let parameters = [Constant.APIParameter.query: cityName, Constant.APIParameter.appID: Constant.apiKey]
-        let urlComponents = URLComponents(string: Constant.getCityWeatherURL, parameters: parameters)
+        let urlComponents = URLComponents(string: Constant.cityWeatherURL, parameters: parameters)
         let url = urlComponents.url!
         let request = URLRequest(url: url)
 
@@ -88,7 +88,7 @@ extension WeatherService {
     
     private func getWeatherForecast(cityName: String) async -> [WeatherForecast] {
         let parameters = [Constant.APIParameter.query: cityName, Constant.APIParameter.appID: Constant.apiKey]
-        let urlComponents = URLComponents(string: Constant.getForecastURL, parameters: parameters)
+        let urlComponents = URLComponents(string: Constant.forecastURL, parameters: parameters)
         let url = urlComponents.url!
         let request = URLRequest(url: url)
 
