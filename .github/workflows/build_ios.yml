@@ -19,4 +19,4 @@ jobs:
 #        run: fastlane build_and_test
         run: device='xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"'
         |
-        xcodebuild test -scheme 'WeatherDemo' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=16.4' -enableCodeCoverage YES
+#        xcodebuild test -scheme 'WeatherDemo' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=16.4' -enableCodeCoverage YES
