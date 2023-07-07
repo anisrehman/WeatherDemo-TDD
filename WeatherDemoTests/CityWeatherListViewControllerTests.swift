@@ -27,6 +27,8 @@ final class CityWeatherListViewControllerTests: XCTestCase {
         XCTAssertGreaterThan(viewControllers.count, 0)
         let rootViewController = viewControllers[0] as? CityWeatherListViewController
         let viewController = try XCTUnwrap(rootViewController)
+        XCTAssertNotNil(viewController.viewModel)
+        XCTAssertNotNil(viewController.router)
         viewController.loadViewIfNeeded()
         XCTAssertNotNil(viewController.tableView)
         let dataSource = try XCTUnwrap(viewController.tableView.dataSource)
@@ -61,7 +63,7 @@ final class CityWeatherListViewControllerTests: XCTestCase {
 
         let weatherService = MockWeatherService(cityWeathers: nil)
         let factory = ViewControllerFactory(weatherService: weatherService)
-        let viewController = factory.getCityWeatherViewController { _ in }
+        let viewController = factory.getCityWeatherViewController(navigationController: UINavigationController())
         viewController.loadViewIfNeeded()
 
         XCTAssertNotNil(viewController.tableView)

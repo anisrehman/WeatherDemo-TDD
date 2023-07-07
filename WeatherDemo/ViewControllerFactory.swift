@@ -11,7 +11,7 @@ import UIKit
 protocol ViewControllerFactoryProtocol {
     var weatherService: WeatherServiceProtocol { get }
     init(weatherService: WeatherServiceProtocol)
-    func getCityWeatherViewController(citySelected: @escaping ((String) -> Void)) -> CityWeatherListViewController
+    func getCityWeatherViewController(navigationController: UINavigationController) -> CityWeatherListViewController
     func getWeatherForecastViewController(city: String) -> WeatherForecastViewController
 }
 
@@ -21,12 +21,13 @@ class ViewControllerFactory: ViewControllerFactoryProtocol {
         self.weatherService = weatherService
     }
 
-    func getCityWeatherViewController(citySelected: @escaping ((String) -> Void)) -> CityWeatherListViewController {
+    func getCityWeatherViewController(navigationController: UINavigationController) -> CityWeatherListViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: "CityWeatherListViewController") as! CityWeatherListViewController
         let viewModel = CityWeatherListViewModel(weatherService: weatherService)
         viewController.viewModel = viewModel
-        viewController.didSelectCity = citySelected
+        let router = CityWeatherRouter(navigationController: navigationController, viewControllerFactory: self)
+        viewController.router = router
         return viewController
     }
 

@@ -18,20 +18,17 @@ protocol MainRouting {
 class MainRouter {
     var window: UIWindow
     var factory: ViewControllerFactoryProtocol
-    var navigationController: UINavigationController?
+    var navigationController: UINavigationController
 
     init(window: UIWindow, factory: ViewControllerFactoryProtocol) {
         self.window = window
         self.factory = factory
+        navigationController = UINavigationController()
     }
 
     func setup() {
-        navigationController = UINavigationController()
-        let viewController = factory.getCityWeatherViewController { [weak self] city in
-            let viewController = self?.factory.getWeatherForecastViewController(city: city)
-            self?.navigationController?.pushViewController(viewController!, animated: true)
-        }
-        navigationController?.pushViewController(viewController, animated: false)
+        let viewController = factory.getCityWeatherViewController(navigationController: navigationController)
+        navigationController.pushViewController(viewController, animated: false)
         self.window.rootViewController = navigationController
         self.window.makeKeyAndVisible()
     }

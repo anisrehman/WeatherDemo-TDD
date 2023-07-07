@@ -8,22 +8,23 @@
 import Foundation
 import UIKit
 
-//protocol CityWeatherRouting {
-//    var navigationController: UINavigationController { get }
-//    var routerComposition: WeatherForecastRouterComposing { get }
-//    func showWeatherForecast()
-//}
-//
-//class CityWeatherRouter: CityWeatherRouting {
-//    var navigationController: UINavigationController
-//    var routerComposition: WeatherForecastRouterComposing
-//    init(navigationController: UINavigationController, routerComposition: WeatherForecastRouterComposing) {
-//        self.navigationController = navigationController
-//        self.routerComposition = routerComposition
-//    }
-//
-//    func showWeatherForecast() {
-//        let viewController = routerComposition.getWeatherForecastViewController()
-//        navigationController.pushViewController(viewController, animated: true)
-//    }
-//}
+protocol CityWeatherRouting {
+    init(navigationController: UINavigationController, viewControllerFactory: ViewControllerFactory)
+    var navigationController: UINavigationController { get }
+    var viewControllerFactory: ViewControllerFactory { get }
+    func showWeatherForecast(city: String)
+}
+
+class CityWeatherRouter: CityWeatherRouting {
+    var navigationController: UINavigationController
+    var viewControllerFactory: ViewControllerFactory
+    required init(navigationController: UINavigationController, viewControllerFactory: ViewControllerFactory) {
+        self.navigationController = navigationController
+        self.viewControllerFactory = viewControllerFactory
+    }
+
+    func showWeatherForecast(city: String) {
+        let viewController = viewControllerFactory.getWeatherForecastViewController(city: city)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+}

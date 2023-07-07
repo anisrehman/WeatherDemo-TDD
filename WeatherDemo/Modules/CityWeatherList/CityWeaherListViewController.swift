@@ -13,7 +13,8 @@ class CityWeatherListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
     var viewModel: CityWeatherListViewModel!
-    var didSelectCity: ((String) -> Void)?
+    var router: CityWeatherRouter!
+//    var didSelectCity: ((String) -> Void)?
 
     private var cityWeatherList: [CityWeather] = []
     private var subscribers: [AnyCancellable] = []
@@ -59,7 +60,8 @@ extension CityWeatherListViewController: UITableViewDataSource {
 
 extension CityWeatherListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.didSelectCity?(cityWeatherList[indexPath.row].city)
+//        self.didSelectCity?(cityWeatherList[indexPath.row].city)
+        router.showWeatherForecast(city: cityWeatherList[indexPath.row].city)
     }
 }
 
