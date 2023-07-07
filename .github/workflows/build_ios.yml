@@ -19,5 +19,5 @@ jobs:
 #        run: sudo Xcode-select -switch /Applications/Xcode_14.3.1.app
       - name: Build, Test and Coverage
 #        run: fastlane build_and_test
-        run: device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
-            xcodebuild test -scheme 'WeatherDemo' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=16.2' -enableCodeCoverage YES
+#        run: device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
+        run:     xcodebuild test -scheme 'WeatherDemo' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14 Pro' -enableCodeCoverage YES
