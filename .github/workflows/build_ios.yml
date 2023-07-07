@@ -9,10 +9,12 @@ on:
       - 'main'
 jobs:
   build:
-    runs-on: self-hosted
+#    runs-on: self-hosted
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Print Current Path
         run: pwd
       - name: Build, Test and Coverage
-        run: fastlane build_and_test
+#        run: fastlane build_and_test
+        run: xcodebuild test -scheme 'WeatherDemo' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=16.4' -enableCodeCoverage YES
