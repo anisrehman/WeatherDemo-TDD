@@ -1,4 +1,6 @@
 # WeatherDemo-TDD
-This demo project gets 100% test coverage. Unit Tests and Integration Tests have been written.
+This demo project gets 100% test coverage. Unit Tests and Integration Tests have been written. 
 
-![Alt text](/Screenshots/TestCoverage.png?raw=true "Optional Title")
+Here is the screenshot for Test Coverage
+
+![Alt text](/Screenshots/TestCoverage.png?raw=true "Test Coverage")
